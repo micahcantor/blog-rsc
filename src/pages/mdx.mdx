@@ -1,10 +1,23 @@
-import Layout from '../components/MDXLayout';
-export default Layout;
-
+import { Code } from "bright";
+import Layout, { CodeBlock } from '../components/MDXLayout';
 import {Counter} from '../components/Counter';
+
+export default Layout;
+export { CodeBlock };
+
+export const title = "My MDX";
+export const tags = ["tag1", "tag2"];
 
 # MDX page
 
 This page is generated from an MDX file.
 
 Here is a client component: <Counter />
+
+## Bright Code
+
+Here is a Bright code block:
+
+```py lineNumbers title="hello.py"
+print("Hello World")
+```

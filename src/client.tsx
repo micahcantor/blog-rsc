@@ -6,6 +6,7 @@ import {hydrate, fetchRSC} from '@parcel/rsc/client';
 let updateRoot = hydrate({
   // Intercept HMR window reloads, and do it with RSC instead.
   onHmrReload() {
+    console.log("Reloading...")
     navigate(location.pathname);
   }
 });

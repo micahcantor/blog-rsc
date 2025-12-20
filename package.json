@@ -14,10 +14,14 @@
   },
   "dependencies": {
     "@parcel/rsc": "^2.14.3",
+    "bright": "^1.0.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@parcel/packager-react-static": "^2.16.3",
+    "@parcel/transformer-react-static": "^2.16.3",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "parcel": "^2.14.0"
