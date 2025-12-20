@@ -1,7 +1,7 @@
 import type { PageProps } from '@parcel/rsc';
 import { Nav } from '../components/Nav';
 import { Counter } from '../components/Counter';
-import '../page.css';
+import '../static/page.css';
 import '../client';
 
 export default function Index({pages, currentPage}: PageProps) {

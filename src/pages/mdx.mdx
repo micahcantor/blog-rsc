@@ -1,9 +1,9 @@
 import { Code } from "bright";
-import Layout, { CodeBlock } from '../components/MDXLayout';
+import Layout, { CodeBlock, MathBlock } from '../components/MDXLayout';
 import {Counter} from '../components/Counter';
 
 export default Layout;
-export { CodeBlock };
+export { CodeBlock, MathBlock };
 
 export const title = "My MDX";
 export const tags = ["tag1", "tag2"];
@@ -21,3 +21,11 @@ Here is a Bright code block:
 ```py lineNumbers title="hello.py"
 print("Hello World")
 ```
+
+## Katex
+
+Here is a Katex math block:
+
+<MathBlock tex="f(x) = x^2" displayMode={true} />
+
+And here is some inline Katex: <MathBlock tex="f(5) = 25" />

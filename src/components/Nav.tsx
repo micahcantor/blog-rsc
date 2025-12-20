@@ -4,7 +4,7 @@ import './Nav.css';
 export function Nav({pages, currentPage}: PageProps) {
   return (
     <nav>
-      <h3>Navigation</h3>
+      <h2>Navigation</h2>
       <p><code>components/Nav.tsx</code> shows how to render a list of pages.</p>
       <ul>
         {pages.map(page => (
