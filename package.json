@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@parcel/rsc": "^2.14.3",
+    "@tailwindcss/postcss": "^4.1.18",
     "bright": "^1.0.0",
     "katex": "^0.16.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.18",
     "zod": "^4.2.1"
   },
   "devDependencies": {

@@ -1,12 +1,15 @@
-import { Code } from "bright";
-import Layout, { CodeBlock, MathBlock } from '../components/MDXLayout';
+import Layout from '../components/ArticleLayout';
+import MathBlock from '../components/MathBlock';
+import CodeBlock from '../components/CodeBlock';
 import {Counter} from '../components/Counter';
 
 export default Layout;
 export { CodeBlock, MathBlock };
-
-export const title = "My MDX";
-export const tags = ["tag1", "tag2"];
+export const metadata = {
+  title: "My MDX",
+  description: "A test article",
+  tags: ["tag1", "tag2"],
+}
 
 # MDX page
 
@@ -21,6 +24,8 @@ Here is a Bright code block:
 ```py lineNumbers title="hello.py"
 print("Hello World")
 ```
+
+And here is some inline code: `InlineCode`.
 
 ## Katex
 
