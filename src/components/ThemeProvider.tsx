@@ -19,7 +19,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext value={{ theme, toggleTheme }}>
-      <div data-theme={theme}>
+      <div className="h-full w-full bg-white dark:bg-gray-950 dark:text-amber-50 pt-2" data-theme={theme}>
         {children}
       </div>
     </ThemeContext>

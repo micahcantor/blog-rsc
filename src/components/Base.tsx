@@ -11,7 +11,7 @@ interface BaseProps {
 
 export default function Base({title, description, thumbnail, children}: BaseProps) {
   return (
-    <html lang="en">
+    <html className="h-full w-full" lang="en">
       <head>
         <meta content="text/html; charset=utf-8" httpEquiv="content-type"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -23,9 +23,9 @@ export default function Base({title, description, thumbnail, children}: BaseProp
         <title>{title}</title>
         {/*<link rel="icon" href={icon} />*/}
       </head>
-      <body>
+      <body className="h-full w-full">
         <ThemeProvider>
-          <div className="bg-white dark:bg-gray-950">
+          <div className="h-full max-w-3xl mx-auto">
             {children}
           </div>
         </ThemeProvider>
