@@ -2,7 +2,6 @@ import type { PageProps } from "@parcel/rsc";
 import "../client";
 import Base from "../components/Base";
 import { ArticleNav } from "../components/ArticleNav";
-import { Header } from "../components/Header";
 
 export default function Index({ pages, currentPage }: PageProps) {
 	return (
@@ -10,14 +9,13 @@ export default function Index({ pages, currentPage }: PageProps) {
 			title="Micah Cantor"
 			description="Micah Cantor's personal website and blog"
 		>
-			<Header />
-			<section className="my-4">
-				<h1 className="font-bold text-xl pb-2">About me</h1>
+			<section className="pb-4">
+				<h1 className="font-bold text-2xl pb-2">About me</h1>
 				<p>Hi, I'm Micah. I'm a software engineer at <a href="https://fullcodemedical.com/">Full Code Medical</a> living in Boston. Here, you'll find my writing
 					on my interests in web development, programming languages, and compilers. </p>
 			</section>
 			<section>
-				<h1 className="font-bold text-xl pb-2">Writing</h1>
+				<h1 className="font-bold text-2xl pb-2">Writing</h1>
 				<ArticleNav pages={pages} />
 			</section>
 		</Base>

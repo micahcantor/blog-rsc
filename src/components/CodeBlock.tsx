@@ -13,7 +13,7 @@ export default function CodeBlock({
 	title,
 	lineNumbers,
 }: CodeBlockProps) {
-	Code.theme
+	Code.theme = "github-dark-dimmed";
 	return (
 		<Code lang={lang} lineNumbers={lineNumbers} title={title}>
 			{children}

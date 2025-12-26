@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import "../static/index.css";
 import ThemeProvider from "./ThemeProvider";
+import { Header } from "./Header";
 
 interface BaseProps {
   title: string,
@@ -23,9 +24,10 @@ export default function Base({title, description, thumbnail, children}: BaseProp
         <title>{title}</title>
         {/*<link rel="icon" href={icon} />*/}
       </head>
-      <body className="h-full w-full">
+      <body className="min-h-screen w-full">
         <ThemeProvider>
-          <div className="h-full max-w-2xl mx-4 lg:mx-auto">
+          <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto">
+       			<Header />
             {children}
           </div>
         </ThemeProvider>

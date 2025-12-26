@@ -15,7 +15,13 @@ let updateRoot = hydrate({
 // and in a React transition, stream in the new page. Once complete, we'll
 // pushState to update the URL in the browser.
 async function navigate(pathname: string, push = false) {
-  let root = await fetchRSC<ReactNode>(pathname.replace(/\.html$/, '.rsc'));
+	let path: string;
+	if (pathname === "/") {
+		path = "/index.rsc";
+	} else {
+		path = pathname.replace(/\.html$/, '.rsc')
+	}
+  let root = await fetchRSC<ReactNode>(path);
   updateRoot(root, () => {
     if (push) {
       history.pushState(null, '', pathname);

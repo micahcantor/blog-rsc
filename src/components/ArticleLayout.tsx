@@ -17,7 +17,9 @@ export default function ArticleLayout({children, pages, currentPage}: ArticleLay
       description={articleExports.metadata.description}
       thumbnail={articleExports.metadata.thumbnail}
     >
-      {children}
+    	<article className="prose dark:prose-invert pb-8">
+     		{children}
+     </article>
     </Base>
   );
 }
