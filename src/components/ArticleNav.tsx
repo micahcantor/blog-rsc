@@ -35,7 +35,7 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 	}, []);
 		
 	const blogPages = useMemo(() => {
-		return pages.filter((page) => {
+		const filteredPages = pages.filter((page) => {
 			if (!page.url.includes("/blog/")) {
 				return false;
 			}
@@ -45,6 +45,13 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 			}
 			return true;
 		});
+		// Sort pages in descending order (most recent first)
+		filteredPages.sort((a, b) => {
+			const aDate = ArticleExports.parse(a.exports).metadata.date;
+			const bDate = ArticleExports.parse(b.exports).metadata.date;
+			return new Date(aDate) <= new Date(bDate) ? 1 : -1;
+		});
+		return filteredPages;
 	}, [pages, selectedTags]); 
 	
 	return (
