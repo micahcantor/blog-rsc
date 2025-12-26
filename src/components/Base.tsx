@@ -25,7 +25,7 @@ export default function Base({title, description, thumbnail, children}: BaseProp
       </head>
       <body className="h-full w-full">
         <ThemeProvider>
-          <div className="h-full max-w-3xl mx-auto">
+          <div className="h-full max-w-2xl mx-4 lg:mx-auto">
             {children}
           </div>
         </ThemeProvider>

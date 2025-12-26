@@ -4,6 +4,19 @@ import Base from "../components/Base";
 import * as Icon from "../icons/Icon";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import { ArticleNav } from "../components/ArticleNav";
+import React from "react";
+
+interface IconBoxProps {
+	children: React.ReactNode
+}
+
+function IconBox({ children }: IconBoxProps) {
+	return (
+		<div className="flex justify-center items-center rounded-md p-1 hover:bg-slate-200 dark:hover:bg-slate-800">
+			{children}
+		</div>
+	);
+}
 
 function IconTray() {
 	const icons = [
@@ -18,11 +31,15 @@ function IconTray() {
 	];
 	return (
 		<>
-			<ThemeSwitcher className="size-6 hover:scale-110" />
+			<IconBox>
+				<ThemeSwitcher className="size-6 hover:scale-110" />
+			</IconBox>
 			{icons.map((icon) => (
-				<a href={icon.url} key={icon.url}>
-					<icon.component className="size-6 hover:scale-110" />
-				</a>
+				<IconBox key={icon.url}>
+					<a href={icon.url}>
+						<icon.component className="size-6 hover:scale-110" />
+					</a>
+				</IconBox>
 			))}
 		</>
 	);
@@ -41,12 +58,12 @@ export default function Index({ pages, currentPage }: PageProps) {
 				</div>
 			</header>
 			<section className="my-4">
-				<h1 className="font-bold text-xl">About me</h1>
+				<h1 className="font-bold text-xl pb-2">About me</h1>
 				<p>Hi, I'm Micah. I'm a software engineer at <a href="https://fullcodemedical.com/">Full Code Medical</a> living in Boston. Here, you'll find my writing
 					on my interests in web development, programming languages, and compilers. </p>
 			</section>
 			<section>
-				<h1 className="font-bold text-xl">Writing</h1>
+				<h1 className="font-bold text-xl pb-2">Writing</h1>
 			</section>
 			<ArticleNav pages={pages} />
 		</Base>
