@@ -25,15 +25,13 @@ export default function Base({title, description, thumbnail, children}: BaseProp
         <title>{title}</title>
         <link rel="icon" type="image/png" href={"/images/icon.png"} />
       </head>
-      <body className="h-full w-full overflow-hidden">
-        <ThemeProvider>
-          <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
-       			<Header />
-            {children}
-            <Footer />
-          </div>
-        </ThemeProvider>
-      </body>
+      <ThemeProvider>
+        <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
+     			<Header />
+          {children}
+          <Footer />
+        </div>
+      </ThemeProvider>
     </html>
   )
 }

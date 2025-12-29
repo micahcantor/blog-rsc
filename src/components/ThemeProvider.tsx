@@ -37,12 +37,12 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
 	return (
 		<ThemeContext value={{ theme, toggleTheme }}>
-			<div
-				className="h-full w-full overflow-y-auto bg-slate-100 transition-colors motion-reduce:transition-none duration-600 dark:bg-slate-900 dark:text-slate-100"
+			<body
+				className="h-full w-full bg-slate-100 transition-colors motion-reduce:transition-none duration-600 dark:bg-slate-900 dark:text-slate-100"
 				data-theme={theme}
 			>
 				{children}
-			</div>
+			</body>
 		</ThemeContext>
 	);
 }
