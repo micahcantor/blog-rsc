@@ -1,20 +1,9 @@
 import React from "react";
-import * as Icon from "../icons/Icon";
+import * as Icon from "./Icon";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import { Profile } from "./ProfilePhoto/ProfilePhoto";
 import { RSCNavigation } from "../util/rscNavigation";
-
-interface IconBoxProps {
-	children: React.ReactNode
-}
-
-function IconBox({ children }: IconBoxProps) {
-	return (
-		<div className="flex justify-center items-center rounded-md border border-slate-300 dark:border-slate-700 p-1 hover:border-violet-300 dark:hover:shadow-violet-700">
-			{children}
-		</div>
-	);
-}
+import { IconBox } from "./IconBox";
 
 function IconTray() {
 	const icons = [

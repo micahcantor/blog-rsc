@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import * as Icon from "../icons/Icon";
+import * as Icon from "./Icon";
 
 interface CitationProps {
 	value: string;

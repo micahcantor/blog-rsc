@@ -4,6 +4,8 @@ import { Page } from "@parcel/rsc";
 import { ArticleCard } from "./ArticleCard";
 import { createContext, useCallback, useMemo, useState } from "react";
 import { ArticleExports } from "../util/article";
+import * as Icon from "./Icon";
+import { IconBox } from "./IconBox";
 
 export interface ArticleNavProps {
 	pages: Page[];
@@ -23,9 +25,11 @@ export const SelectedTagContext = createContext<SelectedTag>({
 
 export function ArticleNav({ pages }: ArticleNavProps) {
 	const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+	
 	const addSelectedTag = useCallback((tag: string) => {
 		setSelectedTags((prevSelectedTags) => new Set(prevSelectedTags).add(tag));
 	}, []);
+
 	const removeSelectedTag = useCallback((tag: string) => {
 		setSelectedTags((prevSelectedTags) => {
 			const newSet = new Set(prevSelectedTags);
@@ -56,11 +60,21 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 		});
 		return filteredPages;
 	}, [pages, selectedTags]);
-
+	
 	return (
 		<SelectedTagContext
 			value={{ selectedTags, addSelectedTag, removeSelectedTag }}
 		>
+			<div className="flex flex-row items-center justify-between pb-2">
+				<h1 className="font-bold text-2xl">Writing</h1>
+				{ selectedTags.size > 0 && (
+					<IconBox>
+						<button onClick={() => setSelectedTags(new Set())}>
+							<Icon.Funnel className="size-6"/>
+						</button>
+					</IconBox>
+				)}
+			</div>
 			<nav className="flex flex-col gap-4">
 				{blogPages.map((page) => (
 					<ArticleCard key={page.url} page={page} />

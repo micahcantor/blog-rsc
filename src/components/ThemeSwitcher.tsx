@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeProvider";
-import * as Icon from "../icons/Icon";
+import * as Icon from "./Icon";
 
 type ThemeSwitcherProps = {
 	className: string;
