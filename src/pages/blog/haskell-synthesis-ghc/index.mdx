@@ -1,5 +1,6 @@
 import Layout from "~/src/components/ArticleLayout";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock };
@@ -12,7 +13,7 @@ export const metadata = {
 
 This semester I worked with [Peter-Michael Osera](https://osera.cs.grinnell.edu/) at Grinnell College on a project exploring how to use the Haskell GHC to generate some simple, even "obvious," function definitions. The goal was to build a practical framework for interacting with GHC internals to query a Haskell program for information on types and terms defined in scope. We could use this information to generate definitions of functions that can only be completed in one straightforward way.
 
-While this task seems relatively simple, working in any capacity with the GHC is notoriously difficult for newcomers due to the complexity of the compiler and its massive interface[^1]. Given our time constraints, we set our sights on synthesizing definitions of "unwrapper" functions for monad transformer stacks. 
+While this task seems relatively simple, working in any capacity with the GHC is notoriously difficult for newcomers due to the complexity of the compiler and its massive interface <Citation value={1} />. Given our time constraints, we set our sights on synthesizing definitions of "unwrapper" functions for monad transformer stacks. 
 
 In this post, we'll cover the motivation for our synthesis project, some details about how it works, then discuss some of our work's implications and next steps for improvement.
 
@@ -102,7 +103,7 @@ synthesizeRunStack functionName stackType paramExpr = do
 
 The `getUnwrappers` function is the main recursive workhorse I mentioned earlier. Its job is to find the specific unwrapper function, like `runReaderT`, for each level of the monad stack. 
 
-At first, we ran into difficulty here since we didn't know how to properly compare polymorphic types.[^2] As a workaround, we decided to instead split each type into its *type constructor*, and compare that with the candidate unwrapping functions in scope. So for example, when we see a type `ReaderT c m a`, we grab the type constructor `ReaderT`, then use that to find any function in scope that takes this type constructor as its first argument. This is how we put it together:
+At first, we ran into difficulty here since we didn't know how to properly compare polymorphic types. <Citation value={2} /> As a workaround, we decided to instead split each type into its *type constructor*, and compare that with the candidate unwrapping functions in scope. So for example, when we see a type `ReaderT c m a`, we grab the type constructor `ReaderT`, then use that to find any function in scope that takes this type constructor as its first argument. This is how we put it together:
 
 ```hs
 getUnwrappers :: Type -> TyCon -> TyCon -> [TypedExpr] -> SynthesizeM [TypedExpr]
@@ -219,8 +220,11 @@ Overall, it seems likely that we are only seeing the beginning of what is possib
 
 This work was completed as part of a [Mentored Advanced Project (MAP)](https://www.grinnell.edu/academics/experience/research/map) at Grinnell College. Thank you to my collaborator Hanfeng Lu, our advisor Peter-Michael Osera, and the College for making this all possible. For those that are interested, all of the code for both the Haskell synthesis program and the VSCode extension [can be found on GitHub here](https://github.com/micahcantor/synthesis-tools).
 
-## Notes
-
-[^1]: If you haven't seen it before, check out [the ghc Hackage page](https://hackage.haskell.org/package/ghc), which links to well over a hundred different submodules. It's a big compiler.
-
-[^2]: For a bit more detail on this problem, [see my Reddit post on r/Haskell](https://www.reddit.com/r/haskell/comments/z7iqff/comparing_polymorphic_function_arguments_with_ghc/) about how exactly to do this. I got some great responses on how and why using the unifier is necessary here.
+<Footnotes>
+	<Footnote value={1}>
+	If you haven't seen it before, check out [the ghc Hackage page](https://hackage.haskell.org/package/ghc), which links to well over a hundred different submodules. It's a big compiler.
+	</Footnote>
+	<Footnote value={2}>
+	For a bit more detail on this problem, [see my Reddit post on r/Haskell](https://www.reddit.com/r/haskell/comments/z7iqff/comparing_polymorphic_function_arguments_with_ghc/) about how exactly to do this. I got some great responses on how and why using the unifier is necessary here.
+	</Footnote>
+</Footnotes>

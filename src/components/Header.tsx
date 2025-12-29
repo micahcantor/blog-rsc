@@ -44,7 +44,7 @@ function IconTray() {
 
 export function Header() {
 	return (
-		<header className="flex flex-row items-center justify-between py-4">
+		<header id="header" className="flex flex-row items-center justify-between py-4">
 			<div className="flex flex-row items-center gap-2">
 				<Profile />
 				<a href="/"><span className="font-bold text-3xl">Micah Cantor</span></a>

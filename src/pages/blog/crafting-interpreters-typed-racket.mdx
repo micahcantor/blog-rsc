@@ -1,5 +1,6 @@
 import Layout from "~/src/components/ArticleLayout";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock };
@@ -138,7 +139,7 @@ This simple macro wraps some given body statements with calls to begin and end t
     (resolve-all! r (block-stmt-statements stmt))))
 ```
 
-Not a huge change, but it does make the code a bit less repetitive.[^1]
+Not a huge change, but it does make the code a bit less repetitive. <Citation value={1} />
 
 ## Conclusion
 
@@ -146,8 +147,10 @@ So, those were a few scattered thoughts on this little Racket interpreter. Overa
 
 As of now, according to [this list](https://github.com/munificent/craftinginterpreters/wiki/Lox-Implementations#racket), it looks like I am the only one who has implemented Lox in Racket, but I'm glad I was able to add one of my favorite languages to that list and learn a bit along the way.
 
-### Notes
-
-[^1]: I stole this idea from [this implementation of Lox in Chicken Scheme](https://github.com/harryposner/schlox). If you found this post interesting, you may find their code to be as well.
+<Footnotes>
+	<Footnote value={1}>
+	I stole this idea from [this implementation of Lox in Chicken Scheme](https://github.com/harryposner/schlox). If you found this post interesting, you may find their code to be as well.
+	</Footnote>
+</Footnotes>
 
 

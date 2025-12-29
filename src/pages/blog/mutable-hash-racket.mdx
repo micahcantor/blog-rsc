@@ -1,6 +1,7 @@
 import Layout from "~/src/components/ArticleLayout";
 import MathBlock from "~/src/components/MathBlock";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock, MathBlock };
@@ -39,7 +40,7 @@ This generates a number, but we also want that number to be between 0 and the si
       size)))
 ```
 
-By using primes in hashing, we decrease the likelihood of *collisions*, the case in which two different keys produce the same index.[^1] We'll deal with collisions more later, but for now, this simple hash function will do.
+By using primes in hashing, we decrease the likelihood of *collisions*, the case in which two different keys produce the same index.<Citation value={1} /> We'll deal with collisions more later, but for now, this simple hash function will do.
 
 ## Sketching the API
 
@@ -128,7 +129,7 @@ Now, if there is a collision, our table of values will look something like this,
 '(() () (("lies" . "value1") ("foes" . "value2")))`
 ```
 
-We also need to update `hash-get` to pull out the correct value from these sublists, whether there is collision or not. To do this, once we narrow our search to the correct index in the table, we will use `findf` to search the sublist for the matching key-value pair[^2]. Then we'll return just the value, using `cdr`:
+We also need to update `hash-get` to pull out the correct value from these sublists, whether there is collision or not. To do this, once we narrow our search to the correct index in the table, we will use `findf` to search the sublist for the matching key-value pair<Citation value={2} />. Then we'll return just the value, using `cdr`:
 
 ```racket
 ; Retrieve the value in the table associated with the key
@@ -145,9 +146,9 @@ Note that `findf` performs a *sequential* search on the sublist, so if there are
 
 What we have so far works great, except there's one problem: we only allocate the size of our hash once, when we initiate it with `(make-hash)`. That means that as we fill up our hash with more values, we will start to get a lot more collisions, and with that, worse performance. To mitigate this, we can *dynamically* increase the size of the hash table when it starts to fill up.
 
-One way to implement this is to keep track of a *load factor*, or the ratio between the number of values stored in the table and its size. When this load factor crosses a certain threshold, say 80% capacity, we will increase the size of our table.[^3]
+One way to implement this is to keep track of a *load factor*, or the ratio between the number of values stored in the table and its size. When this load factor crosses a certain threshold, say 80% capacity, we will increase the size of our table.<Citation value={3}/>
 
-In order to do this, let's edit our struct to also hold a counter for the number of items that are held in the table[^4]. This counter should start at 0 when a new hash is created, so let's give it an auto-value of 0:
+In order to do this, let's edit our struct to also hold a counter for the number of items that are held in the table<Citation value={4}/>. This counter should start at 0 when a new hash is created, so let's give it an auto-value of 0:
 
 ```racket
 (struct hash (table [num #:auto])
@@ -155,7 +156,7 @@ In order to do this, let's edit our struct to also hold a counter for the number
   #:auto-value 0)
 ```
 
-Then, in our `hash-set!` function, let's increment the counter[^5] and check if our load factor has reached the threshold. If it has, we resize the hash before setting the new value.
+Then, in our `hash-set!` function, let's increment the counter<Citation value={5}/> and check if our load factor has reached the threshold. If it has, we resize the hash before setting the new value.
 
 ```racket
 ; Set the value in the table for a given key
@@ -190,7 +191,7 @@ We use `set-hash-table!` here since we want to completely swap our old table for
 
 We're not done though, since by doing this we've discarded the values in our old table. Instead we will need to *rehash* these values into the new table. This rehashing step is necessary since our hash function relies on the size of our table, so we can't reuse indices from the old table as they would not match up to their corresponding keys.
 
-To rehash our values, we iterate over each sublist in the old table, and then over each key-value pair in those sublists. At each step, we want to calculate the new index using the hash function and insert into the new table.[^6] This can be achieved neatly with Racket's `for*` construct for nested loops:
+To rehash our values, we iterate over each sublist in the old table, and then over each key-value pair in those sublists. At each step, we want to calculate the new index using the hash function and insert into the new table.<Citation value={6} /> This can be achieved neatly with Racket's `for*` construct for nested loops:
 
 ```racket
 ; Create a new table that is at least twice as large as the original. 
@@ -233,15 +234,23 @@ The full code can be found [here](https://gist.github.com/micahcantor/332b295218
 
 This post is inspired by [Ben Awad's video](https://www.youtube.com/watch?v=UOxTMOCTEZk) on implementing hash tables in JavaScript. I also made use of [this article](https://www.interviewcake.com/concept/javascript/hash-map?) by InterviewCake that outlines the main concepts surrounding hash tables.
 
-### Notes
-[^1]: See [this answer on StackExchange](https://cs.stackexchange.com/questions/11029/why-is-it-best-to-use-a-prime-number-as-a-mod-in-a-hashing-function) for a more in depth explanation.
-
-[^2]: If the same key has been set twice, it will collide, but the most recent key-value pair will appear first, so it will still be found first by findf. We could make this more precise by adding more logic to our set function to deal with this edge case.
-
-[^3]: We could also dynamically decrease the size of the table as items are removed to decrease our memory footprint, but we won't get to that here.
-
-[^4]: I don't love this solution, since it involves more mutation, but otherwise we would have to count the number of non-null elements in our table every time we wanted to calculate our load factor. This would need to be sequential, and so would force our insertions to occur in linear, rather than constant time, which we can't afford.
-
-[^5]: This is inaccurate, since we shouldn't increment the counter when there is a collision, so there should be some extra logic here to check first.
-
-[^6]: You'll notice this is the same code we used in hash-set! so we could pull out these lines into its own function instead of copy-pasting.
+<Footnotes>
+	<Footnote value={1}>
+	See [this answer on StackExchange](https://cs.stackexchange.com/questions/11029/why-is-it-best-to-use-a-prime-number-as-a-mod-in-a-hashing-function) for a more in depth explanation.
+	</Footnote>
+	<Footnote value={2}>
+ 	If the same key has been set twice, it will collide, but the most recent key-value pair will appear first, so it will still be found first by findf. We could make this more precise by adding more logic to our set function to deal with this edge case.
+	</Footnote>
+	<Footnote value={3}>
+	We could also dynamically decrease the size of the table as items are removed to decrease our memory footprint, but we won't get to that here.
+	</Footnote>
+	<Footnote value={4}>
+	I don't love this solution, since it involves more mutation, but otherwise we would have to count the number of non-null elements in our table every time we wanted to calculate our load factor. This would need to be sequential, and so would force our insertions to occur in linear, rather than constant time, which we can't afford.
+	</Footnote>
+	<Footnote value={5}>
+	This is inaccurate, since we shouldn't increment the counter when there is a collision, so there should be some extra logic here to check first.
+	</Footnote>
+	<Footnote value={6}>
+	You'll notice this is the same code we used in hash-set! so we could pull out these lines into its own function instead of copy-pasting.
+	</Footnote>
+</Footnotes>

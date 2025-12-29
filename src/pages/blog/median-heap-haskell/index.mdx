@@ -1,6 +1,7 @@
 import Layout from "~/src/components/ArticleLayout";
 import MathBlock from "~/src/components/MathBlock";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock, MathBlock };
@@ -13,7 +14,7 @@ export const metadata = {
 
 [Heaps](https://en.wikipedia.org/wiki/Heap_(data_structure)) are a fundamental data structure that implement the [priority queue](https://en.wikipedia.org/wiki/Priority_queue) [abstract data type](https://en.wikipedia.org/wiki/Abstract_data_type). Essentially, a priority queue is one where the element at the front of line is always the one of highest *priority*, which is defined by the programmer for a specific implementation. A standard heap implementation provides fast access to the front element of the queue, in <MathBlock tex='O(1)'/> time, as well as insertion/deletion in <MathBlock tex='O(\text{log}(n))'/> time.
 
-Usually, the highest priority value is defined as either the minimum or maximum value in the data, as implemented in min and max heaps respectively. In this post, however, we will look at a more specialized heap that instead prioritizes the *median* value. Why would this be useful? I'm not sure of any practical applications, but assumedly it could be if it were ever performance critical to repeatedly calculate the median. Let's jump in. [^1]
+Usually, the highest priority value is defined as either the minimum or maximum value in the data, as implemented in min and max heaps respectively. In this post, however, we will look at a more specialized heap that instead prioritizes the *median* value. Why would this be useful? I'm not sure of any practical applications, but assumedly it could be if it were ever performance critical to repeatedly calculate the median. Let's jump in.<Citation value={1} />
 
 ## The Idea
 
@@ -115,5 +116,8 @@ Note that converting from an unsorted list and then finding the median from our 
 
 That's all I have here, but please reach out with any questions or comments!
 
-### Notes
-[^1]: This post is inspired by another [blog post](https://www.erichgrunewald.com/posts/using-scheme-to-find-the-median-of-two-sorted-integer-lists/), which shows how to find the median of two sorted lists in linear time. That got me thinking, though, if it we already had sorted data, whether there was a better data structure for the problem.
+<Footnotes>
+	<Footnote value={1}>
+	This post is inspired by another [blog post](https://www.erichgrunewald.com/posts/using-scheme-to-find-the-median-of-two-sorted-integer-lists/), which shows how to find the median of two sorted lists in linear time. That got me thinking, though, if it we already had sorted data, whether there was a better data structure for the problem.
+	</Footnote>
+</Footnotes>

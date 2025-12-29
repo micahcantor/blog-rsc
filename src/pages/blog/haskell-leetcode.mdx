@@ -1,6 +1,7 @@
 import Layout from "~/src/components/ArticleLayout";
 import MathBlock from "~/src/components/MathBlock";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock, MathBlock };
@@ -40,7 +41,7 @@ toDecimal = sum . zipWith (*) powersOfTen
 
 Here we define a lazy, infinite list of all powers of 10. Then to convert to decimal, we multiply each digit with its corresponding power, then sum it up.
 
-Next we need a `fromDecimal` function which will essentially act in reverse: given a number, produce its digits in a list in reverse order. Notice that we want to generate a list from a single value, which is exactly what the `unfoldr` function from `Data.List` is meant to do! [^1]
+Next we need a `fromDecimal` function which will essentially act in reverse: given a number, produce its digits in a list in reverse order. Notice that we want to generate a list from a single value, which is exactly what the `unfoldr` function from `Data.List` is meant to do! <Citation value={1} />
 
 Recall that `unfoldr` is a higher-order function with the type
 
@@ -52,7 +53,7 @@ Essentially, it takes a starting value `b`, and a function that returns `Nothing
 
 I admit, that sounds complicated, but an example should help. For `fromDecimal n`, the base case is when <MathBlock tex='n' /> is <MathBlock tex='0' />. Here, we add nothing to our result list. In the recursive case, we add <MathBlock tex='n \mod 10' /> to the list, since this gives us the leading digit of <MathBlock tex='n' />, and continue with <MathBlock tex='\lfloor n / 10 \rfloor' /> as our remainder.
 
-Finally, following precisely from this definition, in Haskell [^2]:
+Finally, following precisely from this definition, in Haskell <Citation value={2} />:
 
 ```hs
 fromDecimal = unfoldr $ \case
@@ -114,7 +115,7 @@ groupAnagrams ["eat", "tea", "tan", "ate", "nat", "bat"]
   = [["bat"],["eat","tea","ate"],["tan","nat"]]
 ```
 
-As a first step, it might be useful to review how to determine if two strings are anagrams. One fairly efficient, yet conceptually simple way of testing this is to just compare the sorted lists for equality, like so[^3]:
+As a first step, it might be useful to review how to determine if two strings are anagrams. One fairly efficient, yet conceptually simple way of testing this is to just compare the sorted lists for equality, like so <Citation value={3} />:
 
 ```hs
 import Data.List (sort)
@@ -226,10 +227,14 @@ So there are my Haskell solutions to these four Leetcode questions. I focused on
 
 I hope you found these solutions interesting, but if you see a mistake or an improvement in any of these, please feel free to reach out via [Twitter](https://twitter.com/micah_cantor) or [email](mailto:hello@micahcantor.com).
 
-### Notes
-
-[^1]: It shouldn't be too surprising that `unfoldr` is useful here, given that `zipWith` and `sum`, which we used in the complementary function, are really just specialized versions of `foldr`.
-
-[^2]: I'm using the [LambdaCase](https://typeclasses.com/ghc/lambda-case) language extension here.
-
-[^3]: Another approach would be to build a histogram of the character counts for each string, then compare these for equality. This would be more efficient if you have a fast dictionary implementation, but this strategy does not fit so easily into our final solution, so I'll skip it for now.
+<Footnotes>
+	<Footnote value={1}>
+	It shouldn't be too surprising that `unfoldr` is useful here, given that `zipWith` and `sum`, which we used in the complementary function, are really just specialized versions of `foldr`.
+	</Footnote>
+	<Footnote value={2}>
+	I'm using the [LambdaCase](https://typeclasses.com/ghc/lambda-case) language extension here.
+	</Footnote>
+	<Footnote value={3}>
+	Another approach would be to build a histogram of the character counts for each string, then compare these for equality. This would be more efficient if you have a fast dictionary implementation, but this strategy does not fit so easily into our final solution, so I'll skip it for now.
+	</Footnote>
+</Footnotes>

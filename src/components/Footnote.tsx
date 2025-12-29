@@ -1,14 +1,22 @@
+"use client";
+
 import { ReactNode } from "react";
+import * as Icon from "../icons/Icon";
 
 interface CitationProps {
 	value: string;
 }
 
 export function Citation({ value }: CitationProps) {
+	function onClick() {
+		const note = document.getElementById(`note-${value}`);
+		note?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+	}
+	
 	return (
-		<a href={`#note-${value}`}>
-			<sup>{value}</sup>
-		</a>
+		<button className="cursor-pointer" id={`citation-${value}`} onClick={onClick}>
+			<sup className="font-bold underline">{value}</sup>
+		</button>
 	)
 }
 
@@ -18,9 +26,19 @@ interface FootnoteProps {
 }
 
 export function Footnote({ value, children }: FootnoteProps) {
+	function onClickBack() {
+		const citation = document.getElementById(`citation-${value}`);
+		citation?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+	}
+	
 	return (
 		<div id={`note-${value}`} className="flex flex-col">
-			<sup><strong>{value}</strong></sup>
+			<div className="flex flex-row items-center justify-between">
+				<span className="font-semibold pt-0.5">{value}</span>
+				<button className="cursor-pointer" onClick={onClickBack}>
+					<Icon.Back className="size-5 font-bold" />
+				</button>
+			</div>
 			<div>
 				{children}
 			</div>

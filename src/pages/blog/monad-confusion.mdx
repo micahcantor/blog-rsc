@@ -1,6 +1,7 @@
 import Layout from "~/src/components/ArticleLayout";
 import MathBlock from "~/src/components/MathBlock";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock, MathBlock };
@@ -101,7 +102,7 @@ The macro can be used to conditionally execute some imperative code, for instanc
 
 which does nothing if `engines-ready` is `false`, and otherwise executes the body.
 
-An extremely similar construct is provided in Haskell, yet it is defined completely differently: not as a macro but as a function over a `Monad`[^1]:
+An extremely similar construct is provided in Haskell, yet it is defined completely differently: not as a macro but as a function over a `Monad` <Citation value={1} />:
 
 ```hs
 when :: Monad m => Bool -> m () -> m ()
@@ -139,6 +140,8 @@ That's not to say Haskell's approach is strictly better however, since the overh
 
 I do think this is an interesting example though, since it shows how these two incredibly different languages both allow for the expression of a core aspect of functional programming, computation as data, but in radically different ways.
 
-### Notes
-
-[^1]: This function should actually be constrained instead using `Applicative` rather than `Monad`, since we only need to use `pure` and not bind. But all monads are applicative functors so this stricter version is fine for this example.
+<Footnotes>
+	<Footnote value={1}>
+	This function should actually be constrained instead using `Applicative` rather than `Monad`, since we only need to use `pure` and not bind. But all monads are applicative functors so this stricter version is fine for this example.
+	</Footnote>
+</Footnotes>

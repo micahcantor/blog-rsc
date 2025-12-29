@@ -21,17 +21,13 @@ async function navigate(pathname: string, push = false) {
 	} else {
 		path = pathname.replace(/\.html$/, '.rsc');
 	}
-	try {
-		let root = await fetchRSC<ReactNode>(path);
-	  updateRoot(root, () => {
-	    if (push) {
-	      history.pushState(null, '', path);
-	    }
-	  });
-	} catch (e) {
-		console.error(e);
-	}
-  
+	let root = await fetchRSC<ReactNode>(path);
+  updateRoot(root, () => {
+		document.getElementById("header")?.scrollIntoView();
+    if (push) {
+      history.pushState(null, '', path);
+    }
+  });
 }
 
 // Intercept link clicks to perform RSC navigation.
@@ -42,7 +38,6 @@ document.addEventListener('click', e => {
   }
   
 	let url = new URL(link.href);
-	console.log(url.hash === "");
   if (
     (!link.target || link.target === '_self') &&
     link.origin === location.origin &&
@@ -55,7 +50,6 @@ document.addEventListener('click', e => {
     !e.shiftKey &&
     !e.defaultPrevented
   ) {
-		console.log("intercept");
     e.preventDefault();
     navigate(link.pathname, true);
   }
@@ -63,6 +57,5 @@ document.addEventListener('click', e => {
 
 // When the user clicks the back button, navigate with RSC.
 window.addEventListener('popstate', e => {
-	console.log("popstate");
   navigate(location.pathname);
 });

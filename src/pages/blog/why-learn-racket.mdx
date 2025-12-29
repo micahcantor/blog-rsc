@@ -1,5 +1,6 @@
 import Layout from "~/src/components/ArticleLayout";
 import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
 
 export default Layout;
 export { CodeBlock };
@@ -22,7 +23,7 @@ I think Racket is a great first language to learn, but in this post, I'd like to
 
 Racket, and Lisps more generally, are often touted as languages with the simplest syntax. In Racket, every form is an expression, which is either an atomic value like a string or number, or a list beginning with a procedure or a special form. This syntax stands in contrast to a language like Python, which has strict rules for which forms may be used as expressions and which must be statements.
 
-I think this advantage is sometimes overstated by Lisp enthusiasts. Although Python's syntax may not be as simple, it does have its own kind of elegance once a user learns its syntactic rules. Where Lisp-style syntax does have an advantage, however, is in the power of its mental evaluation model. When evaluating Racket code, we always evaluate the innermost parentheses first, replacing procedure calls with their appropriate body, except for a few special forms.[^1]
+I think this advantage is sometimes overstated by Lisp enthusiasts. Although Python's syntax may not be as simple, it does have its own kind of elegance once a user learns its syntactic rules. Where Lisp-style syntax does have an advantage, however, is in the power of its mental evaluation model. When evaluating Racket code, we always evaluate the innermost parentheses first, replacing procedure calls with their appropriate body, except for a few special forms.<Citation value={1}/>
 
 For example, take the following Racket expression to square every number in a list
 
@@ -71,7 +72,7 @@ Even if you are an experienced Python or Java programmer that knows exactly how 
 
 ## Less is more
 
-Learning Racket often involves working with a more limited set of tools than the ones offered in other languages. Loops and mutation, for instance, which are core features in other languages, are usually off-limits to beginners in Racket.[^2] 
+Learning Racket often involves working with a more limited set of tools than the ones offered in other languages. Loops and mutation, for instance, which are core features in other languages, are usually off-limits to beginners in Racket.<Citation value={2}/> 
 
 While there are genuine aesthetic advantages to a language built with a small core, namely in how it can be concisely defined and implemented, I think it's important not to overstate these in comparison to the material advantages of a small language as well. 
 
@@ -160,8 +161,11 @@ Racket is above all, an excellent programming language, and in my view, a valuab
 
 *This article has been [translated to Italian](https://www.alessandroliguori.it/post/perch%C3%A8_studiare_racket/) by [Alessandro Liguori](https://www.alessandroliguori.it/).*
 
-## Notes
-
-[^1]: As others have pointed out, this only applies for the small core of the language, not for macros or DSLs. But beginners generally stick with that small core.
-
-[^2]: Again, this applies to the Scheme-like core of Racket, not for the language at large, which incorporates a lot more complexity. 
+<Footnotes>
+	<Footnote value={1}>
+	As others have pointed out, this only applies for the small core of the language, not for macros or DSLs. But beginners generally stick with that small core.
+	</Footnote>
+	<Footnote value={2}>
+	Again, this applies to the Scheme-like core of Racket, not for the language at large, which incorporates a lot more complexity. 
+	</Footnote>
+</Footnotes>
