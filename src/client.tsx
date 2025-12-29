@@ -19,26 +19,35 @@ async function navigate(pathname: string, push = false) {
 	if (pathname === "/") {
 		path = "/index.rsc";
 	} else {
-		path = pathname.replace(/\.html$/, '.rsc')
+		path = pathname.replace(/\.html$/, '.rsc');
 	}
-  let root = await fetchRSC<ReactNode>(path);
-  updateRoot(root, () => {
-    if (push) {
-      history.pushState(null, '', pathname);
-    }
-  });
+	try {
+		let root = await fetchRSC<ReactNode>(path);
+	  updateRoot(root, () => {
+	    if (push) {
+	      history.pushState(null, '', path);
+	    }
+	  });
+	} catch (e) {
+		console.error(e);
+	}
+  
 }
 
 // Intercept link clicks to perform RSC navigation.
 document.addEventListener('click', e => {
   let link = (e.target as Element).closest('a');
+  if (!link || !(link instanceof HTMLAnchorElement) || !link.href) {
+		return;
+  }
+  
+	let url = new URL(link.href);
+	console.log(url.hash === "");
   if (
-    link &&
-    link instanceof HTMLAnchorElement &&
-    link.href &&
     (!link.target || link.target === '_self') &&
     link.origin === location.origin &&
     !link.hasAttribute('download') &&
+    url.hash === "" && // ignore internal links
     e.button === 0 && // left clicks only
     !e.metaKey && // open in new tab (mac)
     !e.ctrlKey && // open in new tab (windows)
@@ -46,6 +55,7 @@ document.addEventListener('click', e => {
     !e.shiftKey &&
     !e.defaultPrevented
   ) {
+		console.log("intercept");
     e.preventDefault();
     navigate(link.pathname, true);
   }
@@ -53,5 +63,6 @@ document.addEventListener('click', e => {
 
 // When the user clicks the back button, navigate with RSC.
 window.addEventListener('popstate', e => {
+	console.log("popstate");
   navigate(location.pathname);
 });

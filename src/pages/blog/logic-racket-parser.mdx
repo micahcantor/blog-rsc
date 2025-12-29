@@ -1,6 +1,6 @@
-import Layout from "../../components/ArticleLayout";
-import MathBlock from "../../components/MathBlock";
-import CodeBlock from "../../components/CodeBlock";
+import Layout from "~/src/components/ArticleLayout";
+import MathBlock from "~/src/components/MathBlock";
+import CodeBlock from "~/src/components/CodeBlock";
 
 export default Layout;
 export { CodeBlock, MathBlock };
@@ -11,8 +11,6 @@ export const metadata = {
 	date: "2020-10-11",
 	tags: ["racket"],
 };
-
-# Parsing propositional logic in 33 lines of Racket
 
 I recently became interested in two seemingly disparate things: Scheme/Racket and symbolic logic, so I decided to have some fun by combining those two into a little project. The marriage is actually a little less weird than it seems, since Racket has very robust tools for lexing and parsing due to its focus on meta-programming. In this post, we'll go over some strategies for implementing a simple parser, with concepts that could easily be extended to parse other things like JSON or even your own programming language.
 
@@ -46,7 +44,7 @@ Propositional logic is constrained to sentences that are observational statement
 
 With propositional logic informally introduced, let's look at the symbols we have at our disposal, which will need to be worked into our parser:
 
-<table className="w-full">
+<table className="w-full table-fixed">
 	<thead>
 		<tr><th>Name</th><th>Symbol</th></tr>
 	</thead>
@@ -97,7 +95,7 @@ connective: AND | OR | IF | IFF
 
 In Brag, any string in all caps is interpreted as a token to be included in our lexer, while those not in caps are types of expressions that we must define elsewhere in the grammar. We define the tokens ATOMIC, NOT, AND, OR, IF, IFF as analogues for the symbols we discussed earlier. We also have the tokens LPAR and RPAR to represent parentheses.
 
-Here, we are successively breaking down the syntax of the language into its constituent parts. A `sentence` can be either `ATOMIC` (e.g $P$ or $Q$) or `complex`. A `complex` expression is any sentence within parentheses, or two sentences joined by a connective, or a negation of a sentence. Finally, a connective can be AND, OR, IF, or IFF.
+Here, we are successively breaking down the syntax of the language into its constituent parts. A `sentence` can be either `ATOMIC` (e.g <MathBlock tex="P"/> or <MathBlock tex="Q"/>) or `complex`. A `complex` expression is any sentence within parentheses, or two sentences joined by a connective, or a negation of a sentence. Finally, a connective can be AND, OR, IF, or IFF.
 
 ### Step Two: Creating the lexer
 

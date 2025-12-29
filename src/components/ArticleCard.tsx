@@ -16,12 +16,11 @@ export function ArticleCard({ page }: ArticleCardProps) {
 	return (
 		<a href={page.url} className="w-full">
 			<div className="w-full px-4 py-2 flex flex-col rounded-lg border shadow-sm hover:shadow-violet-300 dark:hover:shadow-violet-700 dark:bg-slate-800 dark:shadow-slate-700 border-slate-300 dark:border-slate-800">
-				<div className="flex flex-row items-center">
+				<div className="flex flex-col pb-1 lg:flex-row lg:justify-between lg:pt-1 lg:gap-2">
 					<h2 className="font-medium text-lg">
 						{articleExports.metadata.title}
 					</h2>
-					<span className="flex-1" />
-					<time dateTime={date.toDateString()} className="text-sm">
+					<time dateTime={date.toDateString()} className="text-sm text-nowrap">
 						{formattedDate}
 					</time>
 				</div>

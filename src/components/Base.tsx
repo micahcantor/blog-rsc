@@ -24,9 +24,9 @@ export default function Base({title, description, thumbnail, children}: BaseProp
         <title>{title}</title>
         {/*<link rel="icon" href={icon} />*/}
       </head>
-      <body className="min-h-screen w-full">
+      <body className="h-full w-full overflow-hidden">
         <ThemeProvider>
-          <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto">
+          <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
        			<Header />
             {children}
           </div>
