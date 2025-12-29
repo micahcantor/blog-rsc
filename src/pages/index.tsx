@@ -11,8 +11,7 @@ export default function Index({ pages, currentPage }: PageProps) {
 		>
 			<section className="pb-4">
 				<h1 className="font-bold text-2xl pb-2">About me</h1>
-				<p>Hi, I'm Micah. I'm a software engineer at <a className="hover:underline" href="https://fullcodemedical.com">Full Code Medical</a> living in Boston. Here, you'll find my writing
-					on my interests in web development, programming languages, and compilers. </p>
+				<p>Hi, I'm Micah. I'm a software engineer at <a className="underline" href="https://fullcodemedical.com">Full Code Medical</a> living in Boston. This is my corner of the internet, where I write about my interests in web development, compilers and programming languages. </p>
 			</section>
 			<section>
 				<h1 className="font-bold text-2xl pb-2">Writing</h1>

@@ -6,19 +6,19 @@ import { createContext, useCallback, useMemo, useState } from "react";
 import { ArticleExports } from "../util/article";
 
 export interface ArticleNavProps {
-	pages: Page[],
+	pages: Page[];
 }
 
 export interface SelectedTag {
-	selectedTags: Set<string>,
-	addSelectedTag: (tag: string) => void,
-	removeSelectedTag: (tag: string) => void,
+	selectedTags: Set<string>;
+	addSelectedTag: (tag: string) => void;
+	removeSelectedTag: (tag: string) => void;
 }
 
 export const SelectedTagContext = createContext<SelectedTag>({
 	selectedTags: new Set(),
-	addSelectedTag: (tag) => { },
-	removeSelectedTag: (tag) => { },
+	addSelectedTag: (tag) => {},
+	removeSelectedTag: (tag) => {},
 });
 
 export function ArticleNav({ pages }: ArticleNavProps) {
@@ -33,14 +33,17 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 			return newSet;
 		});
 	}, []);
-		
+
 	const blogPages = useMemo(() => {
 		const filteredPages = pages.filter((page) => {
 			if (!page.url.includes("/blog/")) {
 				return false;
 			}
 			const exports = ArticleExports.parse(page.exports);
-			if (selectedTags.size > 0 && !exports.metadata.tags.some((tag) => selectedTags.has(tag))) {
+			if (
+				selectedTags.size > 0 &&
+				!exports.metadata.tags.some((tag) => selectedTags.has(tag))
+			) {
 				return false;
 			}
 			return true;
@@ -52,12 +55,16 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 			return new Date(aDate) <= new Date(bDate) ? 1 : -1;
 		});
 		return filteredPages;
-	}, [pages, selectedTags]); 
-	
+	}, [pages, selectedTags]);
+
 	return (
-		<SelectedTagContext value={{selectedTags, addSelectedTag, removeSelectedTag}}>
+		<SelectedTagContext
+			value={{ selectedTags, addSelectedTag, removeSelectedTag }}
+		>
 			<nav className="flex flex-col gap-4">
-				{blogPages.map((page) => <ArticleCard key={page.url} page={page} />)}
+				{blogPages.map((page) => (
+					<ArticleCard key={page.url} page={page} />
+				))}
 			</nav>
 		</SelectedTagContext>
 	);

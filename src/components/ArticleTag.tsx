@@ -9,21 +9,25 @@ export interface ArticleTag {
 }
 
 export function ArticleTag({ value }: ArticleTag) {
-	const { selectedTags, addSelectedTag, removeSelectedTag } = useContext(SelectedTagContext);
+	const { selectedTags, addSelectedTag, removeSelectedTag } =
+		useContext(SelectedTagContext);
 	const isSelected = useMemo(
 		() => selectedTags.has(value),
 		[value, selectedTags],
 	);
-	const onTagClick = useCallback((e: React.MouseEvent) => {
-		e.stopPropagation();
-		e.preventDefault();
-		if (isSelected) {
-			removeSelectedTag(value);
-		} else {
-			addSelectedTag(value);
-		}
-	}, [isSelected, removeSelectedTag, addSelectedTag, value]);
-		
+	const onTagClick = useCallback(
+		(e: React.MouseEvent) => {
+			e.stopPropagation();
+			e.preventDefault();
+			if (isSelected) {
+				removeSelectedTag(value);
+			} else {
+				addSelectedTag(value);
+			}
+		},
+		[isSelected, removeSelectedTag, addSelectedTag, value],
+	);
+
 	return (
 		<button
 			onClick={onTagClick}

@@ -2,6 +2,7 @@ import React from "react";
 import * as Icon from "../icons/Icon";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import { Profile } from "./ProfilePhoto/ProfilePhoto";
+import { RSCNavigation } from "../util/rscNavigation";
 
 interface IconBoxProps {
 	children: React.ReactNode
@@ -9,7 +10,7 @@ interface IconBoxProps {
 
 function IconBox({ children }: IconBoxProps) {
 	return (
-		<div className="flex justify-center items-center rounded-md p-1 hover:bg-slate-200 dark:hover:bg-slate-800">
+		<div className="flex justify-center items-center rounded-md border border-slate-300 dark:border-slate-700 p-1 hover:border-violet-300 dark:hover:shadow-violet-700">
 			{children}
 		</div>
 	);
@@ -29,12 +30,12 @@ function IconTray() {
 	return (
 		<>
 			<IconBox>
-				<ThemeSwitcher className="size-6 hover:scale-110" />
+				<ThemeSwitcher className="size-6" />
 			</IconBox>
 			{icons.map((icon) => (
 				<IconBox key={icon.url}>
-					<a href={icon.url}>
-						<icon.component className="size-6 hover:scale-110" />
+					<a data-rsc-navigation={RSCNavigation.Disabled} href={icon.url}>
+						<icon.component className="size-6" />
 					</a>
 				</IconBox>
 			))}

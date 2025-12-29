@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import "../static/index.css";
 import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 interface BaseProps {
   title: string,
@@ -22,13 +23,14 @@ export default function Base({title, description, thumbnail, children}: BaseProp
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <title>{title}</title>
-        {/*<link rel="icon" href={icon} />*/}
+        <link rel="icon" href={"/src/static/images/icon.png"} />
       </head>
       <body className="h-full w-full overflow-hidden">
         <ThemeProvider>
           <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
        			<Header />
             {children}
+            <Footer />
           </div>
         </ThemeProvider>
       </body>

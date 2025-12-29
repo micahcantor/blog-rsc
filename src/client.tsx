@@ -1,61 +1,60 @@
 "use client-entry";
 
-import type { ReactNode } from 'react';
-import {hydrate, fetchRSC} from '@parcel/rsc/client';
+import type { ReactNode } from "react";
+import { hydrate, fetchRSC } from "@parcel/rsc/client";
+import { RSCNavigation } from "./util/rscNavigation";
 
 let updateRoot = hydrate({
-  // Intercept HMR window reloads, and do it with RSC instead.
-  onHmrReload() {
-    console.log("Reloading...")
-    navigate(location.pathname);
-  }
+	// Intercept HMR window reloads, and do it with RSC instead.
+	onHmrReload() {
+		console.log("Reloading...");
+		navigate(location.pathname);
+	},
 });
 
-// A very simple router. When we navigate, we'll fetch a new RSC payload,
-// and in a React transition, stream in the new page. Once complete, we'll
-// pushState to update the URL in the browser.
 async function navigate(pathname: string, push = false) {
-	let path: string;
+	let rscPath: string;
 	if (pathname === "/") {
-		path = "/index.rsc";
+		rscPath = "/index.rsc";
 	} else {
-		path = pathname.replace(/\.html$/, '.rsc');
+		rscPath = pathname.replace(/\.html$/, ".rsc");
 	}
-	let root = await fetchRSC<ReactNode>(path);
-  updateRoot(root, () => {
+	let root = await fetchRSC<ReactNode>(rscPath);
+	updateRoot(root, () => {
 		document.getElementById("header")?.scrollIntoView();
-    if (push) {
-      history.pushState(null, '', path);
-    }
-  });
+		if (push) {
+			history.pushState(null, "", pathname);
+		}
+	});
 }
 
 // Intercept link clicks to perform RSC navigation.
-document.addEventListener('click', e => {
-  let link = (e.target as Element).closest('a');
-  if (!link || !(link instanceof HTMLAnchorElement) || !link.href) {
+document.addEventListener("click", (e) => {
+	let link = (e.target as Element).closest("a");
+	if (!link || !(link instanceof HTMLAnchorElement) || !link.href) {
 		return;
-  }
-  
+	}
+	
 	let url = new URL(link.href);
-  if (
-    (!link.target || link.target === '_self') &&
-    link.origin === location.origin &&
-    !link.hasAttribute('download') &&
-    url.hash === "" && // ignore internal links
-    e.button === 0 && // left clicks only
-    !e.metaKey && // open in new tab (mac)
-    !e.ctrlKey && // open in new tab (windows)
-    !e.altKey && // download
-    !e.shiftKey &&
-    !e.defaultPrevented
-  ) {
-    e.preventDefault();
-    navigate(link.pathname, true);
-  }
+	if (
+		(!link.target || link.target === "_self") &&
+		link.origin === location.origin &&
+		link.dataset.rscNavigation !== RSCNavigation.Disabled &&
+		!link.hasAttribute("download") &&
+		url.hash === "" && // ignore internal links
+		e.button === 0 && // left clicks only
+		!e.metaKey && // open in new tab (mac)
+		!e.ctrlKey && // open in new tab (windows)
+		!e.altKey && // download
+		!e.shiftKey &&
+		!e.defaultPrevented
+	) {
+		e.preventDefault();
+		navigate(link.pathname, true);
+	}
 });
 
 // When the user clicks the back button, navigate with RSC.
-window.addEventListener('popstate', e => {
-  navigate(location.pathname);
+window.addEventListener("popstate", (e) => {
+	navigate(location.pathname);
 });

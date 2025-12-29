@@ -18,6 +18,8 @@
     "@tailwindcss/postcss": "^4.1.18",
     "bright": "^1.0.0",
     "clsx": "^2.1.1",
+    "feed": "^5.1.0",
+    "graceful-fs": "^4.2.11",
     "katex": "^0.16.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
