@@ -5,7 +5,6 @@ import {
 	ReactNode,
 	useCallback,
 	useEffect,
-	useMemo,
 	useState,
 } from "react";
 
@@ -34,7 +33,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 			setTheme("light");
 		}
 	}, []);
-
+	
 	return (
 		<ThemeContext value={{ theme, toggleTheme }}>
 			<body
