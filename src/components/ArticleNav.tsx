@@ -61,8 +61,6 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 		return filteredPages;
 	}, [pages, selectedTags]);
 	
-	const sortedTags = Array.from(selectedTags).sort();
-	
 	return (
 		<SelectedTagContext
 			value={{ selectedTags, addSelectedTag, removeSelectedTag }}
@@ -78,14 +76,8 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 				)}
 			</div>
 			<nav className="flex flex-col gap-4">
-				{blogPages.map((page, index) => (
-					<div 
-						key={`${page.url}-${sortedTags.join(",")}`}
-						className="animate-slide-up motion-reduce:animate-none"
-						style={{ animationDelay: `${index * 100}ms` }}
-					>
-						<ArticleCard page={page} />
-					</div>
+				{blogPages.map((page) => (
+					<ArticleCard key={page.url} page={page} />
 				))}
 			</nav>
 		</SelectedTagContext>
