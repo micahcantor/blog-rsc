@@ -14,7 +14,7 @@ export function Citation({ value }: CitationProps) {
 	}
 	
 	return (
-		<button className="cursor-pointer" id={`citation-${value}`} onClick={onClick}>
+		<button className="cursor-pointer" id={`citation-${value}`} onClick={onClick} aria-label={`citation-${value}`}>
 			<sup className="font-bold underline">{value}</sup>
 		</button>
 	)
@@ -35,7 +35,7 @@ export function Footnote({ value, children }: FootnoteProps) {
 		<div id={`note-${value}`} className="flex flex-col">
 			<div className="flex flex-row items-center justify-between">
 				<span className="font-semibold pt-0.5">{value}</span>
-				<button className="cursor-pointer" onClick={onClickBack}>
+				<button className="cursor-pointer" onClick={onClickBack} aria-label="Back">
 					<Icon.Back className="size-5 font-bold" />
 				</button>
 			</div>

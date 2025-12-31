@@ -35,6 +35,7 @@ export function ArticleTag({ value }: ArticleTag) {
 				"italic bg-violet-300 dark:bg-violet-700 py-0.5 px-1.5 text-sm rounded-3xl hover:scale-110",
 				isSelected && "border border-slate-800 dark:border-slate-300",
 			)}
+			aria-label={`Tag #${value}`}
 		>
 			{`#${value}`}
 		</button>

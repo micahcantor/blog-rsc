@@ -30,11 +30,11 @@ export default function Base({title, description, children}: BaseProps) {
         <link rel="icon" type="image/png" href={"/images/icon.ico"} />
       </head>
       <ThemeProvider>
-        <div className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
+        <main className="min-h-screen max-w-2xl mx-4 lg:mx-auto pb-8">
      			<Header />
           {children}
           <Footer />
-        </div>
+        </main>
       </ThemeProvider>
     </html>
   )

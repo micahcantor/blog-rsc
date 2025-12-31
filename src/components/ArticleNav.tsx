@@ -71,7 +71,7 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 				<h1 className="font-bold text-2xl">Writing</h1>
 				{ selectedTags.size > 0 && (
 					<IconBox>
-						<button onClick={() => setSelectedTags(new Set())}>
+						<button onClick={() => setSelectedTags(new Set())} aria-label="Filter">
 							<Icon.Funnel className="size-6"/>
 						</button>
 					</IconBox>

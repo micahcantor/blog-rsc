@@ -12,7 +12,7 @@ export default function ThemeSwitcher({ className }: ThemeSwitcherProps) {
 	const { theme, toggleTheme } = useContext(ThemeContext);
 
 	return (
-		<button onClick={toggleTheme}>
+		<button onClick={toggleTheme} aria-label="Toggle theme">
 			{theme === "light" ? (
 				<Icon.Sun className={className} />
 			) : (

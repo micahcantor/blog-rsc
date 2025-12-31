@@ -10,10 +10,12 @@ function IconTray() {
 		{
 			component: Icon.Mail,
 			url: "mailto:hello@micahcantor.com",
+			label: "Mail",
 		},
 		{
 			component: Icon.Rss,
 			url: "/atom.xml",
+			label: "RSS",
 		},
 	];
 	return (
@@ -23,7 +25,7 @@ function IconTray() {
 			</IconBox>
 			{icons.map((icon) => (
 				<IconBox key={icon.url}>
-					<a data-rsc-navigation={RSCNavigation.Disabled} href={icon.url}>
+					<a data-rsc-navigation={RSCNavigation.Disabled} href={icon.url} aria-label={icon.label}>
 						<icon.component className="size-6" />
 					</a>
 				</IconBox>
