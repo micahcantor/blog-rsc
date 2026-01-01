@@ -1,8 +1,9 @@
 "use client";
 
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { Page } from "@parcel/rsc";
+import clsx from "clsx";
 import { ArticleCard } from "./ArticleCard";
-import { createContext, useCallback, useMemo, useState } from "react";
 import { ArticleExports } from "../util/article";
 import * as Icon from "./Icon";
 import { IconBox } from "./IconBox";
@@ -24,7 +25,10 @@ export const SelectedTagContext = createContext<SelectedTag>({
 });
 
 export function ArticleNav({ pages }: ArticleNavProps) {
+	const [hasMounted, setHasMounted] = useState(false);
 	const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+	
+	useEffect(() => setHasMounted(true), []);
 	
 	const addSelectedTag = useCallback((tag: string) => {
 		setSelectedTags((prevSelectedTags) => new Set(prevSelectedTags).add(tag));
@@ -77,7 +81,7 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 					</IconBox>
 				)}
 			</div>
-			<nav key={navKey} className="flex flex-col gap-4 animate-slide-up motion-reduce:animate-none">
+			<nav key={navKey} className={clsx("flex flex-col gap-4", hasMounted && "animate-slide-up motion-reduce:animate-none")}>
 				{blogPages.map((page) => (
 					<ArticleCard key={page.url} page={page} />
 				))}
