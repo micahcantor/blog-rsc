@@ -1,7 +1,7 @@
 import type { PageProps } from "@parcel/rsc";
 import { Feed } from "feed";
 import { ArticleExports } from "../util/article";
-import * as fs from "graceful-fs";
+import { writeFile } from "fs/promises";
 import Base from "../components/Base";
 
 export default async function FeedPage({ pages, currentPage }: PageProps) {
@@ -32,7 +32,7 @@ export default async function FeedPage({ pages, currentPage }: PageProps) {
 				author: [author],
 			});
 		});
-	await fs.writeFile("dist/atom.xml", feed.atom1());
+	await writeFile("dist/atom.xml", feed.atom1());
 	
 	return (
 		<Base title="Feed" description="feed">
