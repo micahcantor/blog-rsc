@@ -1,5 +1,6 @@
 import { ReactNode, StrictMode } from "react";
 import "../static/index.css";
+import "../static/redaction.css";
 import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -37,7 +38,7 @@ export default function Base({ title, description, children }: BaseProps) {
 					<link rel="icon" type="image/png" href={"/images/icon.ico"} />
 				</head>
 				<ThemeProvider>
-					<main className="min-h-screen max-w-2xl mx-4 md:mx-auto pb-8">
+					<main className="min-h-screen max-w-2xl mx-4 md:mx-auto pb-8 font-[Redaction]">
 						<Header />
 						{children}
 						<Footer />

@@ -19,7 +19,7 @@ export function ArticleCard({ page }: ArticleCardProps) {
 			<a href={page.url} className="w-full">
 				<div className="w-full px-4 py-2 flex flex-col rounded-lg rounded-b-none border border-slate-300 dark:border-slate-700 active:bg-slate-200 dark:active:bg-slate-700 dark:bg-slate-800">
 					<div className="flex flex-col pb-1 lg:flex-row lg:justify-between lg:pt-1 lg:gap-2">
-						<h2 className="font-medium text-lg">
+						<h2 className="font-bold text-lg">
 							{articleExports.metadata.title}
 						</h2>
 						<time dateTime={date.toDateString()} className="text-sm text-nowrap">
