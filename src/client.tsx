@@ -8,24 +8,38 @@ let updateRoot = hydrate({
 	// Intercept HMR window reloads, and do it with RSC instead.
 	onHmrReload() {
 		console.log("Reloading...");
-		navigate(location.pathname);
+		onNavigation();
 	},
 });
 
-async function navigate(pathname: string, push = false) {
-	let rscPath: string;
-	if (pathname === "/") {
-		rscPath = "/index.rsc";
-	} else {
-		rscPath = pathname.replace(/\.html$/, ".rsc");
-	}
-	let root = await fetchRSC<ReactNode>(rscPath);
-	updateRoot(root, () => {
-		if (push) {
-			history.pushState(null, "", pathname);
-			document.getElementById("header")?.scrollIntoView();
-		}
-	});
+async function onNavigation() {
+	let rscHref = location.href;
+	if (rscHref.endsWith("/")) {
+		rscHref += "index.html";
+	} 
+	rscHref = rscHref.replace(/\.html$/, ".rsc");
+	
+	let root = await fetchRSC<ReactNode>(rscHref);
+	updateRoot(root);
+	window.scrollTo({ left: 0, top: 0 });
+}
+
+window.addEventListener("popstate", (e) => {
+	onNavigation();
+});
+
+const oldPushState = window.history.pushState
+window.history.pushState = function (...args) {
+  const result = oldPushState.apply(this, args)
+  onNavigation()
+	return result;
+}
+
+const oldReplaceState = window.history.replaceState
+window.history.replaceState = function (...args) {
+  const result = oldReplaceState.apply(this, args)
+  onNavigation()
+	return result;
 }
 
 // Intercept link clicks to perform RSC navigation.
@@ -47,11 +61,6 @@ document.addEventListener("click", (e) => {
 		!e.defaultPrevented
 	) {
 		e.preventDefault();
-		navigate(link.pathname, true);
+		history.pushState(null, "", link.href);
 	}
-});
-
-// When the user clicks the back button, navigate with RSC.
-window.addEventListener("popstate", (e) => {
-	navigate(location.pathname);
 });
