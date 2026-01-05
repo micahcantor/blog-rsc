@@ -14,7 +14,7 @@ export function Citation({ value }: CitationProps) {
 	}
 	
 	return (
-		<button className="cursor-pointer" id={`citation-${value}`} onClick={onClick} aria-label={`citation-${value}`}>
+		<button className="cursor-pointer px-0.5" id={`citation-${value}`} onClick={onClick} aria-label={`citation-${value}`}>
 			<sup className="font-bold underline">{value}</sup>
 		</button>
 	)

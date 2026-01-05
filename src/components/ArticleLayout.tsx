@@ -25,7 +25,6 @@ export default function ArticleLayout({
 		<Base
 			title={articleExports.metadata.title}
 			description={articleExports.metadata.description}
-			thumbnail={articleExports.metadata.thumbnail}
 		>
 			<article className="prose prose-figure:flex prose-figure:justify-center dark:prose-invert">
 				<div>
