@@ -20,8 +20,9 @@ async function onNavigation() {
 	rscHref = rscHref.replace(/\.html$/, ".rsc");
 	
 	let root = await fetchRSC<ReactNode>(rscHref);
-	updateRoot(root);
-	window.scrollTo({ left: 0, top: 0 });
+	updateRoot(root, () => {
+		window.scrollTo({ left: 0, top: 0 })
+	});
 }
 
 window.addEventListener("popstate", (e) => {

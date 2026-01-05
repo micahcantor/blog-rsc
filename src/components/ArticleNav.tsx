@@ -66,6 +66,7 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 	}, [pages, selectedTags]);
 	
 	const navKey = useMemo(() => Array.from(selectedTags).sort().join(","), [selectedTags]);
+	const showAnimation = hasMounted && selectedTags.size > 0;
 	
 	return (
 		<SelectedTagContext
@@ -81,7 +82,7 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 					</IconBox>
 				)}
 			</div>
-			<nav key={navKey} className={clsx("flex flex-col gap-4", hasMounted && "animate-slide-up motion-reduce:animate-none")}>
+			<nav key={navKey} className={clsx("flex flex-col gap-4", showAnimation && "animate-slide-up motion-reduce:animate-none")}>
 				{blogPages.map((page) => (
 					<ArticleCard key={page.url} page={page} />
 				))}
