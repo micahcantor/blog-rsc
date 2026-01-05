@@ -1,0 +1,101 @@
+import Layout from "~/src/components/ArticleLayout";
+import CodeBlock from "~/src/components/CodeBlock";
+import { Citation, Footnote, Footnotes } from "~/src/components/Footnote";
+
+export default Layout;
+export { CodeBlock };
+export const metadata = {
+	title: "I rebuilt my blog with React Server Components",
+	description: "A retrospective on my experience migrating this website to React 19 and Parcel",
+	date: "2025-01-05",
+	tags: ["web-dev"],
+};
+
+Over the holidays, I used some extra time to rebuild this website using React Server Components (RSC). My primary motivation for this was educational. Although I had read several articles explaining the purpose of server components and how they work, I've always found that I need to use a new technology to really understand it.
+
+Beyond the educational upside, my main attraction to server components was the ability to use React as a static-site generator (SSG). Previously, this blog was built with [Zola](https://www.getzola.org), a more traditional SSG tool that uses [Tera](https://keats.github.io/tera/) for HTML templating. Integrating React for dynamic elements would be possible, but it would mean maintaining two separate templating languages and the boundary between them. The advantage of RSC is the ability to adopt usage of JSX at build time and seamlessly integrate server and client components.
+
+Now that the rewrite is complete, I have some thoughts on the experience of using RSC that may help other developers considering adopting them in their own projects. Importantly, this article is meant to be a retrospective rather than a tutorial. If you are new to RSC, I recommend starting instead with [Josh Comeau's interactive introduction](https://www.joshwcomeau.com/react/server-components/), or with Dan Abramov's talk [React for Two Computers](https://www.youtube.com/watch?v=ozI4V_29fj4).
+
+## Choosing a bundler
+
+React Server Components require integration with a JS bundler to efficiently deliver the server components to the client.<Citation value={1}/>. From my research, the bundlers that currently support server components are Next.js, Vite, React Router, and Parcel.
+
+After exploring these options, I decided to go with Parcel for a few reasons. The first, and most important, is simplicity. I had limited time to set up this new site, and I didn't want to be bogged down in the more complex configuration details provided by Next and Vite. Parcel advertises itself as a "zero-configuration bundler" which attracted me for this project.
+
+Overall, I had a positive experience with Parcel. The RSC API they expose is simple, the documentation is clear, and they include plenty of examples. Parcel also supports MDX out-of-the-box, which made it easy for me to port over my existing articles written in Markdown.
+
+I did run into one issue with Parcel though, which is that I wasn't able to reference static image assets from JS (although I was able to from MDX content). According to the docs, you should be able to access paths to image assets using relative paths based on `import.meta.url`. But this didn't work for me<Citation value={2} />. As a workaround, I added post-build step where I directly `cp` image assets into the generated `dist` directory. This means I can't use Parcel's image optimization features, so I would like to fix this once I have a chance to debug further.
+
+## Where server components shine
+
+Once I had Parcel set up and the bones of the site completed, I started working on porting my existing article content. The two main features I needed to support were syntax-highlighted code blocks and LaTeX-rendered math. These are ideal features to implement with server components because rendering them on the client-side would require bundling large JS libraries. Using server components, we can instead pre-render the markup in Node.js, reducing the client-side complexity without sacrificing on flexibility.
+
+For syntax highlting, I chose to use the [Bright](https://bright.codehike.org) library, which uses VSCode's highlighting engine under-the-hood. The library provides a configurable `Code` server component. When Parcel processes my MDX files, it turns fenced code blocks into `CodeBlock` component instances, which I define using the Bright component.
+
+For rendering LaTeX, I used the KaTeX library, as I had on the previous version of my site. However, I now implemented a simple `MathBlock` server component which uses the KaTeX Node.js library to render content. This means that I don't have to include the `katex.js` file in my JS client bundle, reducing the page complexity and speeding-up the page load.
+
+I think that features like these exemplify the best of server components. It lets developers render heavy components on the server-side (or in my case at build-time, as I'm just using SSG), while still allowing me to easily drop down to client-side React for dynamic components as needed. 
+
+For instance, on the home page of this site, I wanted to support filtering of articles by their tag. This is a dynamic feature which requires showing and hiding articles based on client-side state. Implementing this feature as a client component was easy, and seamlessly integrates with the rest of the site, most of which is rendered statically at build-time.
+
+## (Ab)using server components for feed generation
+
+Another important feature I needed to support for my site was RSS feed generation. Most of the heavy-lifting of generating the XML content in the correct format can be handled with the [feed Node.js library](https://github.com/jpmonette/feed). The challenge I had was I needed to use the metadata for each post (in particular, the title, description, and publication date) to include in the feed. This data is exported as a JS object from each MDX file, and then accessed as needed throughout the site.
+
+I could have built a separate Node script to run after building the site that read each MDX file, parsed the exported metadata, and generated the feed. But Parcel's built-in MDX support for server components makes accessing the exported data from each page easy. At build-time, Parcel assembles an array of `Page` objects including each target page's URL, name, and export content. It passes these as props to each top-level page server component.
+
+The end-result is pretty simple. I created a top-level `FeedPage` server component which is given the `pages` data as a prop from Parcel's build step. This component corresponds to a page at `/feed`, but I don't link to that page anywhere on the site. Instead, the purpose of the component is for the side-effect during rendering. When the component renders, I generate the feed from blog page metadata and write it to a file in the `dist` directory. Here's a slightly simplified version of the component definition:
+
+```ts
+async function FeedPage({ pages, currentPage }: PageProps) {
+	const feed = new Feed(...); // create feed with basic site-wide data
+	pages
+		.filter((page) => page.url.includes("/blog/"))
+		.forEach((page) => {
+			const metadata = ArticleExports.parse(page.exports).metadata;
+			feed.addItem(...); // use metadata to add item to feed
+		});
+	await fs.writeFile("dist/atom.xml", feed.atom1());
+	
+	/* Dummy content for the page that directs users to the generated feed */
+	return (
+		<Base title="Feed" description="feed">
+			Feed located at <a href="/atom.xml">/atom.xml</a>.
+		</Base>
+	);
+}
+```
+
+For those unfamiliar with server components, this probably looks very strange, as a core tenent of React is avoiding side-effects when rendering components. But remember that server components in a statically-generated site are only ever rendered *once*, when the app is built, meaning that embedding side-effects like these while rendering is totally fine. I'm not sure this is what Parcel's developers had in mind with the Page API, but this approach was easier than building a separate script for feed generation.
+
+## Internal Navigation with RSC
+
+The one aspect of this rewrite that I found to be difficult with RSC is the approach to internal navigation. When Parcel builds my site, it generates two copies of each page: one is a `.html` file and the other is a `.rsc` file. The HTML file is intended to be used for external links to my site, and includes all of the content, styles, and bundled JS as usual. 
+
+The RSC file, meanwhile, is intended for internal navigation on my site. Parcel exposes a function `fetchRSC`, a wrapper over the normal `fetch`, that can use these `.rsc` files to get only new resources. This can speed up navigation, similar to on a single page app.
+
+To implement the client-side navigation with RSC, we need to replace the `.html` with `.rsc` in the path, fetch the root component with `fetchRSC`, and then re-hydrate the page. We then override the browser default `click` event and history state changes to use the custom navigation function.
+
+Although the client-side router is small (my version is only ~60 lines), it's tricky to get exactly right. I had to make a few changes to [the client-side router in Parcel's example app](https://github.com/parcel-bundler/rsc-examples/blob/main/examples/static/components/client.tsx) to fix a few issues:
+1. Parcel's version navigated using `location.pathname` instead of `location.href`. This strips away the URL `hash` and query parameters, breaking any links that use those.
+2. Parcel's version navigated to the next page without resetting the scroll position to the top. I had to fix this so users didn't navigate to the middle of an article.
+
+Overall, I'm generally wary of the client-side navigation like this because it replaces robust, browser-native features. I could forego using the `.rsc` files at all, but that feels antithetical to the purpose of using RSC. Maybe a more mature framework that adopts RSC will have a better client-side navigation solution, but as it is my approach feels a bit hacky.
+
+## Reflections and Conclusions
+
+Overall, I found the process of migrating to RSC to be relatively straightforward. My understanding of how to use them has definitely improved in the process, although I feel like I'd need to dive into using RSC in a dynamic, server-rendered app to fully form an opinion on adopting them over other web app frameworks.
+
+Although RSC are still a new and unstable feature, I'd recommend developers try them out to learn more. From discussions I've read online, I've seen a lot of skepticism toward their utility. But I think this is mainly from people's confusion or lack of understanding about how RSC work. And they *are* confusing, but I also think they're a powerful new tool that's worth learning more about.
+
+For those that are interested, the source code for this site is [available on GitHub](https://github.com/micahcantor/blog-rsc).
+
+<Footnotes>
+	<Footnote value={1}>
+	See [Dan Abramov's article](https://overreacted.io/why-does-rsc-integrate-with-a-bundler/) for more details on why using RSC requires a bundler.
+	</Footnote>
+	<Footnote value={2}>
+	When I try to construct the `URL` object as described in the docs, I get the descriptive message `@parcel/packager-react-static: Error` at build-time.
+	</Footnote>
+</Footnotes>
