@@ -19,7 +19,7 @@ Now that the rewrite is complete, I have some thoughts on the experience of usin
 
 ## Choosing a bundler
 
-React Server Components require integration with a JS bundler to efficiently deliver the server components to the client.<Citation value={1}/>. From my research, the bundlers that currently support server components are Next.js, Vite, React Router, and Parcel.
+React Server Components require integration with a JS bundler to efficiently deliver the server components to the client.<Citation value={1}/> From my research, the bundlers that currently support server components are Next.js, Vite, React Router, and Parcel.
 
 After exploring these options, I decided to go with Parcel for a few reasons. The first, and most important, is simplicity. I had limited time to set up this new site, and I didn't want to be bogged down in the more complex configuration details provided by Next and Vite. Parcel advertises itself as a "zero-configuration bundler" which attracted me for this project.
 
@@ -69,7 +69,7 @@ async function FeedPage({ pages, currentPage }: PageProps) {
 
 For those unfamiliar with server components, this probably looks very strange, as a core tenent of React is avoiding side-effects when rendering components. But remember that server components in a statically-generated site are only ever rendered *once*, when the app is built, meaning that embedding side-effects like these while rendering is totally fine. I'm not sure this is what Parcel's developers had in mind with the Page API, but this approach was easier than building a separate script for feed generation.
 
-## Internal Navigation with RSC
+## Internal navigation with RSC
 
 The one aspect of this rewrite that I found to be difficult with RSC is the approach to internal navigation. When Parcel builds my site, it generates two copies of each page: one is a `.html` file and the other is a `.rsc` file. The HTML file is intended to be used for external links to my site, and includes all of the content, styles, and bundled JS as usual. 
 
@@ -83,7 +83,7 @@ Although the client-side router is small (my version is only ~60 lines), it's tr
 
 Overall, I'm generally wary of the client-side navigation like this because it replaces robust, browser-native features. I could forego using the `.rsc` files at all, but that feels antithetical to the purpose of using RSC. Maybe a more mature framework that adopts RSC will have a better client-side navigation solution, but as it is my approach feels a bit hacky.
 
-## Reflections and Conclusions
+## Reflections and conclusions
 
 Overall, I found the process of migrating to RSC to be relatively straightforward. My understanding of how to use them has definitely improved in the process, although I feel like I'd need to dive into using RSC in a dynamic, server-rendered app to fully form an opinion on adopting them over other web app frameworks.
 
