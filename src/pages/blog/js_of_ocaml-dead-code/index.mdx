@@ -6,7 +6,7 @@ export { CodeBlock };
 export const metadata = {
 	title: "Improving the dead code elimination algorithm in js_of_ocaml",
 	description:
-		"A Reducing code size with a new global optimization pass in js_of_ocaml.",
+		"Reducing code size with a new global optimization pass in js_of_ocaml.",
 	date: "2023-11-13",
 	tags: ["ocaml", "compilers", "pl"],
 };
@@ -215,10 +215,32 @@ The function `foo` is given an array `x` and returns a new array including only 
 
 <table className="w-full table-fixed">
 	<thead>
-		<tr><th>Name</th><th>Liveness</th></tr>
+		<tr>
+			<th>Name</th>
+			<th>Liveness</th>
+		</tr>
 	</thead>
 	<tbody>
-		<tr><td>`foo`</td><td>`Dead`</td></tr><tr><td>`x`</td><td>`Dead`</td></tr><tr><td>`y`</td><td>`Dead`</td></tr><tr><td>`z`</td><td>`Dead`</td></tr><tr><td>`sum`</td><td>`Top`</td></tr>
+		<tr>
+			<td>`foo`</td>
+			<td>`Dead`</td>
+		</tr>
+		<tr>
+			<td>`x`</td>
+			<td>`Dead`</td>
+		</tr>
+		<tr>
+			<td>`y`</td>
+			<td>`Dead`</td>
+		</tr>
+		<tr>
+			<td>`z`</td>
+			<td>`Dead`</td>
+		</tr>
+		<tr>
+			<td>`sum`</td>
+			<td>`Top`</td>
+		</tr>
 	</tbody>
 </table>
 
