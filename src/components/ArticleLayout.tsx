@@ -4,6 +4,7 @@ import "../static/katex.css";
 import "../client";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
+import BlueskyAuth from "./BlueskyAuth";
 
 interface ArticleLayoutProps extends PageProps {
 	children: ReactNode;
@@ -38,6 +39,10 @@ export default function ArticleLayout({
 				</div>
 				{children}
 			</article>
+			<section className="mt-8">
+				<h2 className="text-xl font-semibold mb-4">Comments</h2>
+				<BlueskyAuth />
+			</section>
 		</Base>
 	);
 }

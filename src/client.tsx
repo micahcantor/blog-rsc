@@ -16,12 +16,12 @@ async function onNavigation() {
 	let rscHref = location.href;
 	if (rscHref.endsWith("/")) {
 		rscHref += "index.html";
-	} 
+	}
 	rscHref = rscHref.replace(/\.html$/, ".rsc");
-	
+
 	let root = await fetchRSC<ReactNode>(rscHref);
 	updateRoot(root, () => {
-		window.scrollTo({ left: 0, top: 0 })
+		window.scrollTo({ left: 0, top: 0 });
 	});
 }
 
@@ -29,19 +29,19 @@ window.addEventListener("popstate", (e) => {
 	onNavigation();
 });
 
-const oldPushState = window.history.pushState
+const oldPushState = window.history.pushState;
 window.history.pushState = function (...args) {
-  const result = oldPushState.apply(this, args)
-  onNavigation()
+	const result = oldPushState.apply(this, args);
+	onNavigation();
 	return result;
-}
+};
 
-const oldReplaceState = window.history.replaceState
+const oldReplaceState = window.history.replaceState;
 window.history.replaceState = function (...args) {
-  const result = oldReplaceState.apply(this, args)
-  onNavigation()
+	const result = oldReplaceState.apply(this, args);
+	onNavigation();
 	return result;
-}
+};
 
 // Intercept link clicks to perform RSC navigation.
 document.addEventListener("click", (e) => {

@@ -1,37 +1,39 @@
 {
-  "name": "parcel-react-static-starter",
-  "private": true,
-  "version": "0.0.0",
-  "targets": {
-    "react-static": {
-      "source": "src/pages/**/*.{js,tsx,mdx}",
-      "context": "react-server"
-    }
-  },
-  "scripts": {
-    "start": "parcel",
-    "build": "parcel build && mkdir -p ./dist/images && cp -r ./src/static/images/ ./dist/images/"
-  },
-  "dependencies": {
-    "@parcel/rsc": "^2.14.3",
-    "@parcel/transformer-svg-jsx": "^2.16.3",
-    "@tailwindcss/postcss": "^4.1.18",
-    "bright": "^1.0.0",
-    "clsx": "^2.1.1",
-    "feed": "^5.1.0",
-    "katex": "^0.16.27",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.18",
-    "zod": "^4.2.1"
-  },
-  "devDependencies": {
-    "@parcel/packager-react-static": "^2.16.3",
-    "@parcel/transformer-react-static": "^2.16.3",
-    "@tailwindcss/typography": "^0.5.19",
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "parcel": "^2.14.0"
-  }
+	"name": "parcel-react-static-starter",
+	"private": true,
+	"version": "0.0.0",
+	"targets": {
+		"react-static": {
+			"source": "src/pages/**/*.{js,tsx,mdx}",
+			"context": "react-server"
+		}
+	},
+	"scripts": {
+		"start": "parcel",
+		"clean": "rm -rf dist/ .parcel-cache node_modules",
+		"build": "parcel build && mkdir -p ./dist/images && cp -r ./src/static/images/ ./dist/images/"
+	},
+	"dependencies": {
+		"@bluesky-social/oauth-client-browser": "^0.3.33",
+		"@parcel/rsc": "^2.14.3",
+		"@parcel/transformer-svg-jsx": "^2.16.3",
+		"@tailwindcss/postcss": "^4.1.18",
+		"bright": "^1.0.0",
+		"clsx": "^2.1.1",
+		"feed": "^5.1.0",
+		"katex": "^0.16.27",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"tailwindcss": "^4.1.18",
+		"zod": "^4.2.1"
+	},
+	"devDependencies": {
+		"@parcel/packager-react-static": "^2.16.3",
+		"@parcel/transformer-react-static": "^2.16.3",
+		"@tailwindcss/typography": "^0.5.19",
+		"@types/node": "^25.0.3",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"parcel": "^2.14.0"
+	}
 }
