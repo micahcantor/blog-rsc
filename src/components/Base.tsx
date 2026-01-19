@@ -1,6 +1,7 @@
 import { ReactNode, StrictMode } from "react";
 import "../static/index.css";
 import "../static/redaction.css";
+import "../lib/client";
 import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -12,7 +13,6 @@ interface BaseProps {
 }
 
 export default function Base({ title, description, children }: BaseProps) {
-	// @ts-ignore
 	const base_url = process.env.URL as string;
 
 	return (

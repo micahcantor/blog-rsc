@@ -1,13 +1,13 @@
-import { OAuthSession } from "@bluesky-social/oauth-client-browser";
+import { Agent } from "@bluesky-social/api";
 import { useEffect, useState } from "react";
 
 export function useBlueskyModule() {
-	const [module, setModule] = useState<typeof import("../bluesky") | null>(
-		null,
-	);
+	const [module, setModule] = useState<
+		typeof import("../lib/bluesky/client") | null
+	>(null);
 
 	useEffect(() => {
-		import("../bluesky").then(async (mod) => {
+		import("../lib/bluesky/client").then(async (mod) => {
 			await mod.initOAuth();
 			setModule(mod);
 		});
@@ -16,9 +16,9 @@ export function useBlueskyModule() {
 	return module;
 }
 
-export function useBlueskySession(): OAuthSession | null {
+export function useBlueskyAgent(): Agent | null {
 	const bluesky = useBlueskyModule();
-	const [session, setSession] = useState<OAuthSession | null>(null);
+	const [agent, setAgent] = useState<Agent | null>(null);
 
 	useEffect(() => {
 		if (!bluesky) {
@@ -26,10 +26,12 @@ export function useBlueskySession(): OAuthSession | null {
 		}
 		bluesky.restoreSession().then((session) => {
 			if (session) {
-				setSession(session);
+				setAgent(new Agent(session));
+			} else {
+				setAgent(new Agent({ service: "https://public.api.bsky.app" }));
 			}
 		});
 	}, [bluesky]);
 
-	return session;
+	return agent;
 }

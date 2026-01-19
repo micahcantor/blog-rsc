@@ -1,6 +1,6 @@
 import { writeFile } from "fs/promises";
 import Base from "../components/Base";
-import { getClientMetadata } from "../oauth-client-metadata";
+import { getClientMetadata } from "../lib/oauth-client-metadata";
 
 export default async function ClientMetadataPage() {
 	const metadata = getClientMetadata();

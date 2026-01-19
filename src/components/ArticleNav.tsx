@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import {
+	createContext,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { Page } from "@parcel/rsc";
 import clsx from "clsx";
 import { ArticleCard } from "./ArticleCard";
@@ -27,9 +33,9 @@ export const SelectedTagContext = createContext<SelectedTag>({
 export function ArticleNav({ pages }: ArticleNavProps) {
 	const [hasMounted, setHasMounted] = useState(false);
 	const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-	
+
 	useEffect(() => setHasMounted(true), []);
-	
+
 	const addSelectedTag = useCallback((tag: string) => {
 		setSelectedTags((prevSelectedTags) => new Set(prevSelectedTags).add(tag));
 	}, []);
@@ -64,25 +70,37 @@ export function ArticleNav({ pages }: ArticleNavProps) {
 		});
 		return filteredPages;
 	}, [pages, selectedTags]);
-	
-	const navKey = useMemo(() => Array.from(selectedTags).sort().join(","), [selectedTags]);
+
+	const navKey = useMemo(
+		() => Array.from(selectedTags).sort().join(","),
+		[selectedTags],
+	);
 	const showAnimation = hasMounted && selectedTags.size > 0;
-	
+
 	return (
 		<SelectedTagContext
 			value={{ selectedTags, addSelectedTag, removeSelectedTag }}
 		>
 			<div className="flex flex-row items-center justify-between pb-2">
 				<h1 className="font-bold text-2xl">Writing</h1>
-				{ selectedTags.size > 0 && (
+				{selectedTags.size > 0 && (
 					<IconBox>
-						<button onClick={() => setSelectedTags(new Set())} aria-label="Filter">
-							<Icon.Funnel className="size-6"/>
+						<button
+							onClick={() => setSelectedTags(new Set())}
+							aria-label="Filter"
+						>
+							<Icon.Funnel className="size-6" />
 						</button>
 					</IconBox>
 				)}
 			</div>
-			<nav key={navKey} className={clsx("flex flex-col gap-4", showAnimation && "animate-slide-up motion-reduce:animate-none")}>
+			<nav
+				key={navKey}
+				className={clsx(
+					"flex flex-col gap-4",
+					showAnimation && "animate-slide-up motion-reduce:animate-none",
+				)}
+			>
 				{blogPages.map((page) => (
 					<ArticleCard key={page.url} page={page} />
 				))}

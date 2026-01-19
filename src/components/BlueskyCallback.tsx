@@ -7,13 +7,14 @@ export function BlueskyCallback() {
 	const bluesky = useBlueskyModule();
 
 	useEffect(() => {
-		console.log("Here!", bluesky);
-
-		if (!bluesky) {
-			return;
+		if (bluesky) {
+			bluesky.callback();
 		}
-		bluesky.callback();
 	}, [bluesky]);
 
-	return <span>Redirecting...</span>;
+	return (
+		<>
+			<span>Redirecting..</span>
+		</>
+	);
 }

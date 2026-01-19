@@ -1,10 +1,13 @@
 import type { PageProps } from "@parcel/rsc";
 import type { ReactNode } from "react";
 import "../static/katex.css";
-import "../client";
+import "../lib/client";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
 import BlueskyAuth from "./BlueskyAuth";
+import { BlueskyComments } from "./BlueskyComments";
+import { BlueskyClientProvider } from "./BlueskyClientProvider";
+import { meta } from "zod/mini";
 
 interface ArticleLayoutProps extends PageProps {
 	children: ReactNode;
@@ -15,21 +18,18 @@ export default function ArticleLayout({
 	pages,
 	currentPage,
 }: ArticleLayoutProps) {
-	const articleExports = ArticleExports.parse(currentPage.exports);
-	const date = new Date(articleExports.metadata.date);
+	const metadata = ArticleExports.parse(currentPage.exports).metadata;
+	const date = new Date(metadata.date);
 	const formattedDate = date.toLocaleDateString("en-US", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
 	});
 	return (
-		<Base
-			title={articleExports.metadata.title}
-			description={articleExports.metadata.description}
-		>
+		<Base title={metadata.title} description={metadata.description}>
 			<article className="prose prose-figure:flex prose-figure:justify-center dark:prose-invert">
 				<div>
-					<h1 className="text-3xl mb-2">{articleExports.metadata.title}</h1>
+					<h1 className="text-3xl mb-2">{metadata.title}</h1>
 					<span>
 						Published on{" "}
 						<time className="font-semibold" dateTime={date.toDateString()}>
@@ -41,7 +41,12 @@ export default function ArticleLayout({
 			</article>
 			<section className="mt-8">
 				<h2 className="text-xl font-semibold mb-4">Comments</h2>
-				<BlueskyAuth />
+				{metadata.bskyPostId && (
+					<BlueskyClientProvider>
+						<BlueskyAuth />
+						<BlueskyComments bskyPostId={metadata.bskyPostId} />
+					</BlueskyClientProvider>
+				)}
 			</section>
 		</Base>
 	);

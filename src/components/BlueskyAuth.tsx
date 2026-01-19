@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useBlueskyModule, useBlueskySession } from "../hooks/bluesky";
+import { useContext, useState } from "react";
+import { BlueskyClientContext } from "./BlueskyClientProvider";
 
 export default function BlueskyAuth() {
+	const { bluesky, agent } = useContext(BlueskyClientContext);
 	const [handle, setHandle] = useState("");
 	const [isSigningIn, setIsSigningIn] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-
-	const bluesky = useBlueskyModule();
-	const session = useBlueskySession();
 
 	const handleSignIn = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -26,26 +24,6 @@ export default function BlueskyAuth() {
 			setIsSigningIn(false);
 		}
 	};
-
-	if (!bluesky) {
-		return <span>Loading...</span>;
-	}
-
-	if (session) {
-		return (
-			<div className="flex items-center gap-3 p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-				<span className="text-sm text-gray-600 dark:text-gray-300">
-					Signed in as <strong>{session.sub}</strong>
-				</span>
-				{/*<button
-					onClick={handleSignOut}
-					className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-				>
-					Sign out
-				</button>*/}
-			</div>
-		);
-	}
 
 	return (
 		<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">

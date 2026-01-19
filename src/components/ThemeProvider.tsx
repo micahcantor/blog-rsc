@@ -33,7 +33,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 			setTheme("light");
 		}
 	}, []);
-	
+
 	return (
 		<ThemeContext value={{ theme, toggleTheme }}>
 			<body
