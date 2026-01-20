@@ -4,9 +4,9 @@ import "../static/katex.css";
 import "../lib/client";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
-import { BlueskyAuth } from "./BlueskyAuth";
-import { BlueskyCommentSection } from "./BlueskyCommentSection";
-import { BlueskyClientProvider } from "./BlueskyClientProvider";
+import { CommentCTA } from "./Bluesky/CommentCTA";
+import { CommentSection } from "./Bluesky/CommentSection";
+import { QueryProvider } from "./Bluesky/QueryProvider";
 
 interface ArticleLayoutProps extends PageProps {
 	children: ReactNode;
@@ -14,7 +14,6 @@ interface ArticleLayoutProps extends PageProps {
 
 export default function ArticleLayout({
 	children,
-	pages,
 	currentPage,
 }: ArticleLayoutProps) {
 	const metadata = ArticleExports.parse(currentPage.exports).metadata;
@@ -24,6 +23,7 @@ export default function ArticleLayout({
 		month: "long",
 		year: "numeric",
 	});
+
 	return (
 		<Base title={metadata.title} description={metadata.description}>
 			<article className="prose prose-figure:flex prose-figure:justify-center dark:prose-invert">
@@ -41,12 +41,12 @@ export default function ArticleLayout({
 			<section className="mt-8">
 				<h2 className="text-xl font-semibold mb-4">Comments</h2>
 				{metadata.bskyPostId && (
-					<BlueskyClientProvider>
+					<QueryProvider>
 						<div className="flex flex-col gap-4">
-							<BlueskyAuth />
-							<BlueskyCommentSection bskyPostId={metadata.bskyPostId} />
+							<CommentCTA bskyPostId={metadata.bskyPostId} />
+							<CommentSection bskyPostId={metadata.bskyPostId} />
 						</div>
-					</BlueskyClientProvider>
+					</QueryProvider>
 				)}
 			</section>
 		</Base>

@@ -9,8 +9,9 @@ export function buildBlueskyURI({ postId, identifier }: ATProtoURIComponents) {
 	return `at://${identifier}/app.bsky.feed.post/${postId}`;
 }
 
+const agent = new Agent({ service: "https://public.api.bsky.app" });
+
 export async function getPostThread(
-	agent: Agent,
 	uri: string,
 ): Promise<AppBskyFeedDefs.ThreadViewPost> {
 	const response = await agent.getPostThread({ uri });
@@ -25,10 +26,9 @@ export async function getPostThread(
 }
 
 export async function getPostReplies(
-	agent: Agent,
 	uri: string,
 ): Promise<AppBskyFeedDefs.ThreadViewPost[]> {
-	const thread = await getPostThread(agent, uri);
+	const thread = await getPostThread(uri);
 	const replies = (thread.replies ?? []).filter(
 		AppBskyFeedDefs.isThreadViewPost,
 	);
