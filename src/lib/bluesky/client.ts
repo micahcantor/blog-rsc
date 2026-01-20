@@ -46,6 +46,16 @@ export async function signIn(handle: string): Promise<void> {
 	});
 }
 
+export async function signOut(): Promise<void> {
+	const did = localStorage.getItem(didStorageKey);
+	if (!did) {
+		return;
+	}
+	const client = getOAuthClient();
+	await client.revoke(did);
+	localStorage.removeItem(didStorageKey);
+}
+
 export async function callback(): Promise<void> {
 	if (!location.hash.includes("state")) {
 		return;

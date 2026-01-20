@@ -4,10 +4,9 @@ import "../static/katex.css";
 import "../lib/client";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
-import BlueskyAuth from "./BlueskyAuth";
-import { BlueskyComments } from "./BlueskyComments";
+import { BlueskyAuth } from "./BlueskyAuth";
+import { BlueskyCommentSection } from "./BlueskyCommentSection";
 import { BlueskyClientProvider } from "./BlueskyClientProvider";
-import { meta } from "zod/mini";
 
 interface ArticleLayoutProps extends PageProps {
 	children: ReactNode;
@@ -43,8 +42,10 @@ export default function ArticleLayout({
 				<h2 className="text-xl font-semibold mb-4">Comments</h2>
 				{metadata.bskyPostId && (
 					<BlueskyClientProvider>
-						<BlueskyAuth />
-						<BlueskyComments bskyPostId={metadata.bskyPostId} />
+						<div className="flex flex-col gap-4">
+							<BlueskyAuth />
+							<BlueskyCommentSection bskyPostId={metadata.bskyPostId} />
+						</div>
 					</BlueskyClientProvider>
 				)}
 			</section>

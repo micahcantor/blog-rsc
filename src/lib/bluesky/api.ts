@@ -1,8 +1,4 @@
-import { Agent } from "@bluesky-social/api";
-import {
-	isThreadViewPost,
-	type ThreadViewPost,
-} from "@bluesky-social/api/dist/client/types/app/bsky/feed/defs";
+import { Agent, AppBskyFeedDefs, AppBskyFeedPost } from "@bluesky-social/api";
 
 export type ATProtoURIComponents = {
 	postId: string;
@@ -16,23 +12,32 @@ export function buildBlueskyURI({ postId, identifier }: ATProtoURIComponents) {
 export async function getPostThread(
 	agent: Agent,
 	uri: string,
-): Promise<ThreadViewPost> {
+): Promise<AppBskyFeedDefs.ThreadViewPost> {
 	const response = await agent.getPostThread({ uri });
 	if (!response.success) {
 		throw new Error("Failed to get post thread");
 	}
-	if (!isThreadViewPost(response.data)) {
-		throw new Error("Failed to get post thread");
+	if (!AppBskyFeedDefs.isThreadViewPost(response.data.thread)) {
+		throw new Error("Post is not a thread");
 	}
-	const thread = response.data.thread as ThreadViewPost;
+	const thread = response.data.thread as AppBskyFeedDefs.ThreadViewPost;
 	return thread;
 }
 
 export async function getPostReplies(
 	agent: Agent,
 	uri: string,
-): Promise<ThreadViewPost[]> {
+): Promise<AppBskyFeedDefs.ThreadViewPost[]> {
 	const thread = await getPostThread(agent, uri);
-	const replies = (thread.replies ?? []).filter(isThreadViewPost);
-	return replies as ThreadViewPost[];
+	const replies = (thread.replies ?? []).filter(
+		AppBskyFeedDefs.isThreadViewPost,
+	);
+	return replies as AppBskyFeedDefs.ThreadViewPost[];
+}
+
+export function getPostText(record: unknown) {
+	if (AppBskyFeedPost.isRecord(record)) {
+		return (record as AppBskyFeedPost.Record).text;
+	}
+	return "";
 }
