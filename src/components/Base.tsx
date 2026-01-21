@@ -40,7 +40,9 @@ export default function Base({ title, description, children }: BaseProps) {
 				<ThemeProvider>
 					<main className="min-h-screen max-w-2xl mx-4 md:mx-auto pb-8 font-[Redaction]">
 						<Header />
-						{children}
+						<div className="pb-2">
+							{children}
+						</div>
 						<Footer />
 					</main>
 				</ThemeProvider>

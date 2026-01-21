@@ -35,9 +35,20 @@ export async function getPostReplies(
 	return replies as AppBskyFeedDefs.ThreadViewPost[];
 }
 
-export function getPostText(record: unknown) {
+export function getPostRecord(record: unknown) {
 	if (AppBskyFeedPost.isRecord(record)) {
-		return (record as AppBskyFeedPost.Record).text;
+		return (record as AppBskyFeedPost.Record);
 	}
-	return "";
+}
+
+export function getPostText(record: unknown) {
+	const postRecord = getPostRecord(record);
+	return postRecord?.text ?? "";
+}
+
+export function getPostDate(record: unknown) {
+	const postRecord = getPostRecord(record);
+	if (postRecord) {
+		return new Date(postRecord.createdAt);
+	}
 }

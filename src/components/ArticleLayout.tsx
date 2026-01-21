@@ -38,17 +38,17 @@ export default function ArticleLayout({
 				</div>
 				{children}
 			</article>
-			<section className="mt-8">
-				<h2 className="text-xl font-semibold mb-4">Comments</h2>
-				{metadata.bskyPostId && (
+			{metadata.bskyPostId && (
+				<section className="mt-4">
+					<h2 className="text-xl font-semibold mb-4">Comments</h2>
 					<QueryProvider>
 						<div className="flex flex-col gap-4">
 							<CommentCTA bskyPostId={metadata.bskyPostId} />
 							<CommentSection bskyPostId={metadata.bskyPostId} />
 						</div>
 					</QueryProvider>
-				)}
-			</section>
+				</section>
+			)}
 		</Base>
 	);
 }
