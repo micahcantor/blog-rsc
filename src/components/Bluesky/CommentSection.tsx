@@ -37,7 +37,7 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 
 	if (!repliesQuery.data || repliesQuery.data.length === 0) {
 		return (
-			<p className="text-sm text-slate-500 dark:text-slate-400">
+			<p className="text-slate-700 dark:text-slate-300">
 				No comments yet.
 			</p>
 		);

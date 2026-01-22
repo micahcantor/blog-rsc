@@ -22,10 +22,10 @@ export function CommentCTA({
 				<div className="w-8 h-8 rounded shrink-0">
 					<Icon.Bluesky />
 				</div>
-				<span className="text-slate-700 dark:text-slate-300">
+				<span className="text-slate-800 dark:text-slate-300">
 					Join the conversation by replying on Bluesky...
 				</span>
-				<div className="w-5 w-5 shrink-0">
+				<div className="w-5 h-5 shrink-0">
 					<Icon.RightArrow />
 				</div>
 			</div>
