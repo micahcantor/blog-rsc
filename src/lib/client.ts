@@ -15,7 +15,7 @@ async function onNavigation() {
 	if (rscHref.endsWith("/")) {
 		rscHref += "index.html";
 	}
-	rscHref = rscHref.replace(/\.html$/, ".rsc");
+	rscHref = rscHref.replace(".html", ".rsc");
 
 	let root = await fetchRSC<ReactNode>(rscHref);
 	updateRoot(root, () => {
