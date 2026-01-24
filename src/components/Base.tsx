@@ -1,7 +1,6 @@
 import { ReactNode, StrictMode } from "react";
 import "../static/index.css";
 import "../static/redaction.css";
-import "../lib/client";
 import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
 import { Footer } from "./Footer";

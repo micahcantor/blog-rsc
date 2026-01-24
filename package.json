@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@bluesky-social/api": "^0.17.3",
 		"@bluesky-social/oauth-client-browser": "^0.3.33",
-		"@parcel/rsc": "^2.14.3",
+		"@parcel/rsc": "^2.16.3",
 		"@parcel/transformer-svg-jsx": "^2.16.3",
 		"@tailwindcss/postcss": "^4.1.18",
 		"@tanstack/react-query": "^5.90.19",
@@ -36,6 +36,6 @@
 		"@types/node": "^25.0.3",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",
-		"parcel": "^2.14.0"
+		"parcel": "^2.16.3"
 	}
 }

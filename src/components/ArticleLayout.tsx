@@ -1,7 +1,6 @@
 import type { PageProps } from "@parcel/rsc";
 import type { ReactNode } from "react";
 import "../static/katex.css";
-import "../lib/client";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
 import { CommentCTA } from "./Bluesky/CommentCTA";
@@ -40,7 +39,7 @@ export default function ArticleLayout({
 			</article>
 			{metadata.bskyPostId && (
 				<section className="mt-4">
-					<h2 className="text-xl font-semibold mb-4">Comments</h2>
+					<h2 id="comments" className="text-xl font-semibold mb-4">Comments</h2>
 					<QueryProvider>
 						<div className="flex flex-col gap-4">
 							<CommentCTA bskyPostId={metadata.bskyPostId} />
