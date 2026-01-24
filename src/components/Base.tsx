@@ -1,4 +1,5 @@
 import { ReactNode, StrictMode } from "react";
+import "../lib/client";
 import "../static/index.css";
 import "../static/redaction.css";
 import ThemeProvider from "./ThemeProvider";
