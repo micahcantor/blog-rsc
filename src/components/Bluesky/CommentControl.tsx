@@ -23,7 +23,7 @@ export function CommentControl({ sort, onSortChange }: CommentControlProps) {
 			</Popover.Trigger>
 			<Popover.Portal>
 				<Popover.Content
-					className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md p-4 shadow-md"
+					className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-3 pl-3 pr-6 shadow-md"
 					sideOffset={5}
 					align="end"
 				>
