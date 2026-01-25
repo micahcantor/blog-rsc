@@ -54,3 +54,11 @@ Even so, building a UI that properly displays threaded comments, particularly on
 Lastly, I added a UI component linking to the parent post on Bluesky, and encouraging people to add to the conversation there. With this, the read-only comment section implementation was complete. If there's interest, I could publish my version of Bluesky comments as a standalone package. But several of the choices I made were relatively specific to my own site. Moreover, the implementation is simple enough that others could probably build their own version from reading the source code, just as I did using Zue's version.
 
 Let me know what you think by replying on Bluesky. Hopefully this can help increase engagement with my blog posts, but then again, my last article generated no replies, so maybe not 😭.
+
+### Update (Jan 25)
+
+Thanks everyone for all the positive feedback! I made a few improvements last night and today. I added control button that allows you to sort comments by top, latest, or oldest. I also included the like count beneath each comments, and made a few small styling improvements.
+
+A few people have asked about adding this to their own site, or about other implementation details. For that, feel free to check out [the source code on GitHub](https://github.com/micahcantor/blog-rsc) (and in particular `src/components/Bluesky` and `src/lib/bluesky.ts`). 
+
+And as I mentioned earlier, I'm certainly not the first person to have thought of this idea or implemented it. In particular, I like the implementations of the same feature by [Natalie B.](https://natalie.sh/posts/bluesky-comments/) and by [Triple Pat](https://triplepat.com/blog/2024/10/17/how-the-website-works).
