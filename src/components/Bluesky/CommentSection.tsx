@@ -3,12 +3,28 @@
 import * as Bluesky from "../../lib/bluesky";
 import { useQuery } from "@tanstack/react-query";
 import { Comment } from "./Comment";
+import { CommentCTA } from "./CommentCTA";
+import { CommentControl } from "./CommentControl";
+import { useState } from "react";
+import { ThreadViewPost } from "@bluesky-social/api/dist/client/types/app/bsky/feed/defs";
 
 type CommentSectionProps = {
 	bskyPostId: string;
 };
 
+type CommentSort = "top" | "oldest" | "latest"
+
+function sortByLikes(p1: ThreadViewPost, p2: ThreadViewPost) {
+	return (p2.post.likeCount ?? 0) - (p1.post.likeCount ?? 0);
+}
+
+function sortByDate(p1: ThreadViewPost, p2: ThreadViewPost) {
+	return (Bluesky.getPostDate(p1) ?? new Date()).getTime() - (Bluesky.getPostDate(p2) ?? new Date()).getTime()
+}
+
 export function CommentSection({ bskyPostId }: CommentSectionProps) {
+	const [commentSort, setCommentSort] = useState<CommentSort>("top");
+	
 	const uri = Bluesky.buildBlueskyURI({
 		postId: bskyPostId,
 		identifier: "micahcantor.bsky.social",
@@ -42,12 +58,31 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 			</p>
 		);
 	}
+	
+	let sortedReplies = repliesQuery.data;
+	if (commentSort === "top") {
+		sortedReplies.sort(sortByLikes);
+	} else if (commentSort === "latest") {
+		sortedReplies.sort(sortByDate);
+	} else {
+		sortedReplies.sort(sortByDate);
+		sortedReplies.reverse();
+	}
 
 	return (
-		<div className="flex flex-col gap-4">
-			{repliesQuery.data.map((reply) => (
-				<Comment key={reply.post.uri} comment={reply} depth={0} />
-			))}
-		</div>
+		<>
+			<div className="flex flex-row items-center justify-between pb-4">
+				<h2 id="comments" className="text-xl font-semibold">Comments</h2>
+				<CommentControl />
+			</div>
+			<div className="flex flex-col gap-4">
+				<CommentCTA bskyPostId={bskyPostId} />
+				<div className="flex flex-col gap-4">
+					{sortedReplies.map((reply) => (
+						<Comment key={reply.post.uri} comment={reply} depth={0} />
+					))}
+				</div>
+			</div>
+		</>
 	);
 }

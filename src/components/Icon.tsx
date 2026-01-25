@@ -195,3 +195,41 @@ export function RightArrow({ className }: IconProps) {
 		</svg>
 	);
 }
+
+export function SlidersVertical({ className }: IconProps) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			strokeWidth={1.5}
+			stroke="currentColor"
+			className={className}
+		>
+			<path
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5"
+			/>
+		</svg>
+	);
+}
+
+export function Heart({ className }: IconProps) {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			strokeWidth={2}
+			stroke="currentColor"
+			className={className}
+		>
+			<path
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+			/>
+		</svg>
+	);
+}

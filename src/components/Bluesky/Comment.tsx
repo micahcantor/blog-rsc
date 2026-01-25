@@ -1,5 +1,6 @@
 import { AppBskyFeedDefs } from "@bluesky-social/api";
 import * as Bluesky from "../../lib/bluesky";
+import * as Icon from "../Icon";
 
 export type CommentProps = {
 	comment: AppBskyFeedDefs.ThreadViewPost;
@@ -14,6 +15,7 @@ export function Comment({ comment, depth }: CommentProps) {
 	const replies = (comment.replies ?? []).filter(
 		AppBskyFeedDefs.isThreadViewPost,
 	);
+	const likeCount = comment.post.likeCount ?? 0;
 	
 	return (
 		<div className="flex flex-col gap-2">
@@ -43,7 +45,10 @@ export function Comment({ comment, depth }: CommentProps) {
 					</div>
 					<p className="text-sm whitespace-pre-wrap">{Bluesky.getPostText(comment.post.record)}</p>
 					{postDate && (
-						<div className="text-sm text-slate-500 dark:text-slate-400">
+						<div className="flex flex-row items-center text-sm text-slate-500 dark:text-slate-400">
+							<Icon.Heart className="size-5 pr-1 pb-0.5" />
+							{likeCount}
+							{" · "}
 							{postDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
 							{" · "}
 							{postDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}

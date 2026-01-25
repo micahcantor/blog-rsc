@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import "../static/katex.css";
 import Base from "./Base";
 import { ArticleExports } from "../util/article";
-import { CommentCTA } from "./Bluesky/CommentCTA";
 import { CommentSection } from "./Bluesky/CommentSection";
 import { QueryProvider } from "./Bluesky/QueryProvider";
 
@@ -39,12 +38,8 @@ export default function ArticleLayout({
 			</article>
 			{metadata.bskyPostId && (
 				<section className="mt-4">
-					<h2 id="comments" className="text-xl font-semibold mb-4">Comments</h2>
 					<QueryProvider>
-						<div className="flex flex-col gap-4">
-							<CommentCTA bskyPostId={metadata.bskyPostId} />
-							<CommentSection bskyPostId={metadata.bskyPostId} />
-						</div>
+						<CommentSection bskyPostId={metadata.bskyPostId} />
 					</QueryProvider>
 				</section>
 			)}
