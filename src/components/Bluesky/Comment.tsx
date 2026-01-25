@@ -3,9 +3,10 @@ import * as Bluesky from "../../lib/bluesky";
 
 export type CommentProps = {
 	comment: AppBskyFeedDefs.ThreadViewPost;
+	depth: number;
 };
 
-export function Comment({ comment }: CommentProps) {
+export function Comment({ comment, depth }: CommentProps) {
 	const author = comment.post.author;
 	const postId = comment.post.uri.split("/").pop();
 	const postUrl = `https://bsky.app/profile/${author.handle}/post/${postId}`;
@@ -50,13 +51,19 @@ export function Comment({ comment }: CommentProps) {
 					)}
 				</div>
 			</a>
-			{replies.length > 0 && (
+			{depth >= 5 && (
+				<a className="text-sm font-bold pl-3 text-slate-900 dark:text-sky-500" href={postUrl}>
+					View more replies...
+				</a>
+			)}
+			{replies.length > 0 && depth < 5 && (
 				<div className="flex flex-col gap-2 pl-6 border-l-2 border-slate-300 dark:border-slate-700">
 					{replies.map((reply) => (
-						<Comment key={reply.post.uri} comment={reply} />
+						<Comment key={reply.post.uri} comment={reply} depth={depth + 1} />
 					))}
 				</div>
 			)}
+			
 		</div>
 	);
 }

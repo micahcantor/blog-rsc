@@ -46,7 +46,7 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 	return (
 		<div className="flex flex-col gap-4">
 			{repliesQuery.data.map((reply) => (
-				<Comment key={reply.post.uri} comment={reply} />
+				<Comment key={reply.post.uri} comment={reply} depth={0} />
 			))}
 		</div>
 	);
