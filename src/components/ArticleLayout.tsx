@@ -24,7 +24,7 @@ export default function ArticleLayout({
 
 	return (
 		<Base title={metadata.title} description={metadata.description}>
-			<article className="prose prose-figure:flex prose-figure:justify-center dark:prose-invert">
+			<article className="prose max-w-none prose-figure:flex prose-figure:justify-center dark:prose-invert">
 				<div>
 					<h1 className="text-3xl mb-2">{metadata.title}</h1>
 					<span>

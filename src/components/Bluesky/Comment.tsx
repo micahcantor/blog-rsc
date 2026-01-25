@@ -18,12 +18,12 @@ export function Comment({ comment, depth }: CommentProps) {
 	const likeCount = comment.post.likeCount ?? 0;
 	
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 min-w-0">
 			<a
 				href={postUrl}
 				target="_blank"
 				rel="noreferrer noopener"
-				className="flex gap-3 rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-100 dark:active:bg-slate-800 transition-colors"
+				className="flex gap-3 rounded-lg p-2 hover:bg-slate-200 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-800 transition-colors min-w-0"
 			>
 				{author.avatar ? (
 					<img
@@ -35,23 +35,23 @@ export function Comment({ comment, depth }: CommentProps) {
 					<div className="w-10 h-10 rounded-full bg-slate-300 dark:bg-slate-600 shrink-0" />
 				)}
 				<div className="flex flex-col gap-1 min-w-0">
-					<div className="flex flex-col md:flex-row gap-x-2 flex-wrap items-baseline text-sm">
-						<span className="font-semibold truncate">
+					<div className="flex flex-col md:flex-row gap-x-2 items-baseline text-sm overflow-hidden">
+						<span className="font-semibold truncate max-w-full">
 							{author.displayName ?? author.handle}
 						</span>
-						<span className="text-slate-500 dark:text-slate-400 truncate">
+						<span className="text-slate-500 dark:text-slate-400 truncate max-w-full">
 							@{author.handle}
 						</span>
 					</div>
-					<p className="text-sm whitespace-pre-wrap">{Bluesky.getPostText(comment.post.record)}</p>
+					<p className="text-sm whitespace-pre-wrap break-words">{Bluesky.getPostText(comment.post.record)}</p>
 					{postDate && (
-						<div className="flex flex-row items-center text-sm text-slate-500 dark:text-slate-400">
-							<Icon.Heart className="size-5 pr-1 pb-0.5" />
-							{likeCount}
-							{" · "}
-							{postDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
-							{" · "}
-							{postDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+						<div className="text-sm text-slate-500 dark:text-slate-400 flex flex-row flex-wrap items-center gap-x-1">
+							<Icon.Heart className="size-5 pb-0.5" />
+							<span>{likeCount}</span>
+							<span>·</span>
+							<span>{postDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</span>
+							<span>·</span>
+							<span>{postDate.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
 						</div>
 					)}
 				</div>

@@ -12,14 +12,14 @@ type CommentSectionProps = {
 	bskyPostId: string;
 };
 
-type CommentSort = "top" | "oldest" | "latest"
+export type CommentSort = "top" | "oldest" | "latest"
 
 function sortByLikes(p1: ThreadViewPost, p2: ThreadViewPost) {
 	return (p2.post.likeCount ?? 0) - (p1.post.likeCount ?? 0);
 }
 
 function sortByDate(p1: ThreadViewPost, p2: ThreadViewPost) {
-	return (Bluesky.getPostDate(p1) ?? new Date()).getTime() - (Bluesky.getPostDate(p2) ?? new Date()).getTime()
+	return (Bluesky.getPostDate(p1.post.record) ?? new Date()).getTime() - (Bluesky.getPostDate(p2.post.record) ?? new Date()).getTime()
 }
 
 export function CommentSection({ bskyPostId }: CommentSectionProps) {
@@ -59,21 +59,21 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 		);
 	}
 	
-	let sortedReplies = repliesQuery.data;
-	if (commentSort === "top") {
-		sortedReplies.sort(sortByLikes);
-	} else if (commentSort === "latest") {
-		sortedReplies.sort(sortByDate);
-	} else {
-		sortedReplies.sort(sortByDate);
-		sortedReplies.reverse();
-	}
+	const sortedReplies = [...repliesQuery.data].sort((p1, p2) => {
+		if (commentSort === "top") {
+			return sortByLikes(p1, p2);
+		} else if (commentSort === "latest") {
+			return sortByDate(p2, p1);
+		} else {
+			return sortByDate(p1, p2);
+		}
+	});
 
 	return (
 		<>
 			<div className="flex flex-row items-center justify-between pb-4">
 				<h2 id="comments" className="text-xl font-semibold">Comments</h2>
-				<CommentControl />
+				<CommentControl sort={commentSort} onSortChange={setCommentSort} />
 			</div>
 			<div className="flex flex-col gap-4">
 				<CommentCTA bskyPostId={bskyPostId} />
