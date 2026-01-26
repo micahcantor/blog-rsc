@@ -34,28 +34,49 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 		queryFn: () => Bluesky.getPostReplies(uri),
 	});
 	
+	const Container = ({ children }: { children: React.ReactNode }) => {
+		return (
+			<>
+				<div className="flex flex-row items-center justify-between pb-4">
+					<h2 id="comments" className="text-xl font-semibold">Comments</h2>
+					<CommentControl sort={commentSort} onSortChange={setCommentSort} />
+				</div>
+				<div className="flex flex-col gap-4">
+					<CommentCTA bskyPostId={bskyPostId} />
+					{children}
+				</div>
+			</>
+		)
+	}
+	
 	if (repliesQuery.isLoading) {
 		return (
-			<div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-				<div className="w-4 h-4 border-2 border-slate-300 dark:border-slate-600 border-t-slate-500 dark:border-t-slate-400 rounded-full animate-spin" />
-				<span>Loading comments...</span>
-			</div>
+			<Container>
+				<div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+					<div className="w-4 h-4 border-2 border-slate-300 dark:border-slate-600 border-t-slate-500 dark:border-t-slate-400 rounded-full animate-spin" />
+					<span>Loading comments...</span>
+				</div>
+			</Container>
 		);
 	}
 
 	if (repliesQuery.error) {
 		return (
-			<p className="text-sm text-red-500">
-				Error: {repliesQuery.error.message}
-			</p>
+			<Container>
+				<p className="text-sm text-red-500">
+					Error: {repliesQuery.error.message}
+				</p>
+			</Container>
 		);
 	}
 
 	if (!repliesQuery.data || repliesQuery.data.length === 0) {
 		return (
-			<p className="text-slate-700 dark:text-slate-300">
-				No comments yet.
-			</p>
+			<Container>
+				<p className="text-slate-700 dark:text-slate-300">
+					No comments yet.
+				</p>
+			</Container>
 		);
 	}
 	
@@ -70,19 +91,12 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 	});
 
 	return (
-		<>
-			<div className="flex flex-row items-center justify-between pb-4">
-				<h2 id="comments" className="text-xl font-semibold">Comments</h2>
-				<CommentControl sort={commentSort} onSortChange={setCommentSort} />
-			</div>
+		<Container>
 			<div className="flex flex-col gap-4">
-				<CommentCTA bskyPostId={bskyPostId} />
-				<div className="flex flex-col gap-4">
-					{sortedReplies.map((reply) => (
-						<Comment key={reply.post.uri} comment={reply} depth={0} />
-					))}
-				</div>
+				{sortedReplies.map((reply) => (
+					<Comment key={reply.post.uri} comment={reply} depth={0} />
+				))}
 			</div>
-		</>
+		</Container>
 	);
 }
