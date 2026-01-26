@@ -12,7 +12,7 @@ type CommentSectionProps = {
 	bskyPostId: string;
 };
 
-export type CommentSort = "top" | "oldest" | "latest"
+export type CommentSort = "top" | "oldest" | "newest"
 
 function sortByLikes(p1: ThreadViewPost, p2: ThreadViewPost) {
 	return (p2.post.likeCount ?? 0) - (p1.post.likeCount ?? 0);
@@ -62,7 +62,7 @@ export function CommentSection({ bskyPostId }: CommentSectionProps) {
 	const sortedReplies = [...repliesQuery.data].sort((p1, p2) => {
 		if (commentSort === "top") {
 			return sortByLikes(p1, p2);
-		} else if (commentSort === "latest") {
+		} else if (commentSort === "newest") {
 			return sortByDate(p2, p1);
 		} else {
 			return sortByDate(p1, p2);

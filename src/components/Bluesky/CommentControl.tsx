@@ -23,7 +23,7 @@ export function CommentControl({ sort, onSortChange }: CommentControlProps) {
 			</Popover.Trigger>
 			<Popover.Portal>
 				<Popover.Content
-					className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-3 pl-3 pr-6 shadow-md"
+					className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-3 p-4 shadow-md"
 					sideOffset={5}
 					align="end"
 				>
@@ -35,9 +35,9 @@ export function CommentControl({ sort, onSortChange }: CommentControlProps) {
 						onValueChange={(value) => onSortChange(value as CommentSort)}
 						className="flex flex-col gap-2"
 					>
-						<RadioItem value="top" label="Top" />
-						<RadioItem value="latest" label="Latest" />
-						<RadioItem value="oldest" label="Oldest" />
+						<RadioItem value="top" label="Top comments first" />
+						<RadioItem value="newest" label="Newest comments first" />
+						<RadioItem value="oldest" label="Oldest comments first" />
 					</RadioGroup.Root>
 				</Popover.Content>
 			</Popover.Portal>
