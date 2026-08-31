@@ -24,9 +24,9 @@ export default function ArticleLayout({
 
 	return (
 		<Base title={metadata.title} description={metadata.description}>
-			<article className="prose max-w-none prose-figure:flex prose-figure:justify-center dark:prose-invert">
+			<article className="prose prose-lg max-w-none prose-figure:flex prose-figure:justify-center dark:prose-invert">
 				<div>
-					<h1 className="text-3xl mb-2">{metadata.title}</h1>
+					<h1 className="text-4xl mb-2">{metadata.title}</h1>
 					<span>
 						Published on{" "}
 						<time className="font-semibold" dateTime={date.toDateString()}>

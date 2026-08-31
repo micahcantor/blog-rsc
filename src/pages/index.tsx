@@ -10,7 +10,7 @@ export default function Index({ pages, currentPage }: PageProps) {
 		>
 			<div className="pb-4">
 				<h1 className="font-bold text-2xl pb-2">About me</h1>
-				<p>
+				<p className="text-lg">
 					Hi, I'm Micah. I'm a software engineer at{" "}
 					<a className="underline" href="https://fullcodemedical.com">
 						Full Code Medical

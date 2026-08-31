@@ -26,7 +26,7 @@ export function ArticleCard({ page }: ArticleCardProps) {
 							{formattedDate}
 						</time>
 					</div>
-					<p>{articleExports.metadata.description}</p>
+					<p className="text-lg">{articleExports.metadata.description}</p>
 				</div>
 			</a>
 			<div className="flex flex-row py-2 px-3 space-x-2 rounded-b-lg border border-t-0 border-slate-300 dark:border-slate-700 dark:bg-slate-800">
