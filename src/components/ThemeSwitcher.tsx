@@ -9,15 +9,12 @@ type ThemeSwitcherProps = {
 };
 
 export default function ThemeSwitcher({ className }: ThemeSwitcherProps) {
-	const { theme, toggleTheme } = useContext(ThemeContext);
+	const { toggleTheme } = useContext(ThemeContext);
 
 	return (
 		<button onClick={toggleTheme} aria-label="Toggle theme">
-			{theme === "light" ? (
-				<Icon.Sun className={className} />
-			) : (
-				<Icon.Moon className={className} />
-			)}
+			<Icon.Sun className={`${className} dark:hidden`} />
+			<Icon.Moon className={`${className} hidden dark:block`} />
 		</button>
 	);
 }

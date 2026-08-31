@@ -6,6 +6,16 @@ import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
+function themeScript() {
+	try {
+		const theme = localStorage.getItem("theme");
+		if (theme === "dark" || theme === "light") {
+			document.documentElement.dataset.theme = theme;
+			document.documentElement.style.colorScheme = theme;
+		}
+	} catch {}
+}
+
 interface BaseProps {
 	title: string;
 	description: string;
@@ -17,8 +27,13 @@ export default function Base({ title, description, children }: BaseProps) {
 
 	return (
 		<StrictMode>
-			<html className="h-full w-full" lang="en">
+			<html className="h-full w-full" lang="en" suppressHydrationWarning>
 				<head>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `(${themeScript})()`,
+						}}
+					/>
 					<meta content="text/html; charset=utf-8" httpEquiv="content-type" />
 					<meta content="width=device-width, initial-scale=1" name="viewport" />
 					<meta property="og:title" content={title} />

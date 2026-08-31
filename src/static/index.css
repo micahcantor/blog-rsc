@@ -1,6 +1,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@custom-variant dark {
+	@media (prefers-color-scheme: dark) {
+		&:where(html:not([data-theme=light]), html:not([data-theme=light]) *) {
+			@slot;
+		}
+	}
+	&:where(html[data-theme=dark], html[data-theme=dark] *) {
+		@slot;
+	}
+}
 
 @keyframes slide-up {
 	from {
