@@ -1,7 +1,7 @@
 import type { PageProps } from "@parcel/rsc";
 import { Feed } from "feed";
 import { ArticleExports } from "../util/article";
-import { writeFile } from "fs/promises";
+import { mkdir, writeFile } from "fs/promises";
 import Base from "../components/Base";
 
 export default async function FeedPage({ pages, currentPage }: PageProps) {
@@ -32,6 +32,7 @@ export default async function FeedPage({ pages, currentPage }: PageProps) {
 				author: [author],
 			});
 		});
+	await mkdir("dist", { recursive: true });
 	await writeFile("dist/atom.xml", feed.atom1());
 	
 	return (
