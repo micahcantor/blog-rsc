@@ -2,11 +2,6 @@
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark {
-	@media (prefers-color-scheme: dark) {
-		&:where(html:not([data-theme=light]), html:not([data-theme=light]) *) {
-			@slot;
-		}
-	}
 	&:where(html[data-theme=dark], html[data-theme=dark] *) {
 		@slot;
 	}

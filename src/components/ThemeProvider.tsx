@@ -21,13 +21,7 @@ export const ThemeContext = createContext<Theme>({
 });
 
 function getCurrentTheme(): ThemeValue {
-	const override = document.documentElement.dataset.theme;
-	if (override === "light" || override === "dark") {
-		return override;
-	}
-	return window.matchMedia("(prefers-color-scheme: dark)").matches
-		? "dark"
-		: "light";
+	return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {

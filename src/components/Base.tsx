@@ -8,10 +8,9 @@ import { Footer } from "./Footer";
 
 function themeScript() {
 	try {
-		const theme = localStorage.getItem("theme");
-		if (theme === "dark" || theme === "light") {
-			document.documentElement.dataset.theme = theme;
-			document.documentElement.style.colorScheme = theme;
+		if (localStorage.getItem("theme") === "dark") {
+			document.documentElement.dataset.theme = "dark";
+			document.documentElement.style.colorScheme = "dark";
 		}
 	} catch {}
 }
@@ -27,7 +26,13 @@ export default function Base({ title, description, children }: BaseProps) {
 
 	return (
 		<StrictMode>
-			<html className="h-full w-full" lang="en" suppressHydrationWarning>
+			<html
+				className="h-full w-full"
+				lang="en"
+				data-theme="light"
+				style={{ colorScheme: "light" }}
+				suppressHydrationWarning
+			>
 				<head>
 					<script
 						dangerouslySetInnerHTML={{
