@@ -2,18 +2,8 @@ import { ReactNode, StrictMode } from "react";
 import "../lib/client";
 import "../static/index.css";
 import "../static/redaction.css";
-import ThemeProvider from "./ThemeProvider";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-
-function themeScript() {
-	try {
-		if (localStorage.getItem("theme") === "dark") {
-			document.documentElement.dataset.theme = "dark";
-			document.documentElement.style.colorScheme = "dark";
-		}
-	} catch {}
-}
 
 interface BaseProps {
 	title: string;
@@ -29,16 +19,10 @@ export default function Base({ title, description, children }: BaseProps) {
 			<html
 				className="h-full w-full"
 				lang="en"
-				data-theme="light"
-				style={{ colorScheme: "light" }}
-				suppressHydrationWarning
+				data-theme="dark"
+				style={{ colorScheme: "dark" }}
 			>
 				<head>
-					<script
-						dangerouslySetInnerHTML={{
-							__html: `(${themeScript})()`,
-						}}
-					/>
 					<meta content="text/html; charset=utf-8" httpEquiv="content-type" />
 					<meta content="width=device-width, initial-scale=1" name="viewport" />
 					<meta property="og:title" content={title} />
@@ -57,7 +41,7 @@ export default function Base({ title, description, children }: BaseProps) {
 					<title>{title}</title>
 					<link rel="icon" type="image/png" href={"/images/icon.ico"} />
 				</head>
-				<ThemeProvider>
+				<body className="h-full w-full bg-slate-900 text-slate-100">
 					<main className="min-h-screen max-w-2xl mx-4 md:mx-auto pb-8 font-[Redaction]">
 						<Header />
 						<div className="pb-2">
@@ -65,7 +49,7 @@ export default function Base({ title, description, children }: BaseProps) {
 						</div>
 						<Footer />
 					</main>
-				</ThemeProvider>
+				</body>
 			</html>
 		</StrictMode>
 	);
