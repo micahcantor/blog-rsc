@@ -2,8 +2,25 @@
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark {
+	@media (prefers-color-scheme: dark) {
+		&:where(html:not([data-theme]), html:not([data-theme]) *) {
+			@slot;
+		}
+	}
 	&:where(html[data-theme=dark], html[data-theme=dark] *) {
 		@slot;
+	}
+}
+
+html[data-theme-ready] body {
+	transition-property: color, background-color;
+	transition-duration: 300ms;
+	transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html[data-theme-ready] body {
+		transition: none;
 	}
 }
 

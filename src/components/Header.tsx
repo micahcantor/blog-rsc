@@ -1,5 +1,6 @@
 import React from "react";
 import * as Icon from "./Icon";
+import ThemeSwitcher from "./ThemeSwitcher";
 import { Profile } from "./ProfilePhoto/ProfilePhoto";
 import { RSCNavigation } from "../util/rscNavigation";
 import { IconBox } from "./IconBox";
@@ -19,6 +20,9 @@ function IconTray() {
 	];
 	return (
 		<>
+			<IconBox>
+				<ThemeSwitcher className="size-6" />
+			</IconBox>
 			{icons.map((icon) => (
 				<IconBox key={icon.url}>
 					<a data-rsc-navigation={RSCNavigation.Disabled} href={icon.url} aria-label={icon.label}>
