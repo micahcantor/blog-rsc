@@ -4,6 +4,8 @@ import "../static/index.css";
 import "../static/redaction.css";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import iconUrl from "url:../static/images/icon.ico";
+import thumbnailUrl from "url:../static/images/thumbnail.png";
 
 interface BaseProps {
 	title: string;
@@ -28,10 +30,7 @@ export default function Base({ title, description, children }: BaseProps) {
 					<meta property="og:title" content={title} />
 					<meta property="og:type" content="blog" />
 					<meta property="og:description" content={description} />
-					<meta
-						property="og:image"
-						content={`${base_url}/images/thumbnail.png`}
-					/>
+					<meta property="og:image" content={`${base_url}${thumbnailUrl}`} />
 					<meta name="description" content={description} />
 					<meta
 						name="viewport"
@@ -39,7 +38,12 @@ export default function Base({ title, description, children }: BaseProps) {
 					/>
 
 					<title>{title}</title>
-					<link rel="icon" type="image/png" href={"/images/icon.ico"} />
+					<link
+						rel="icon"
+						type="image/x-icon"
+						sizes="32x32"
+						href={iconUrl}
+					/>
 				</head>
 				<body className="h-full w-full bg-slate-900 text-slate-100">
 					<main className="min-h-screen max-w-2xl mx-4 md:mx-auto pb-8 font-[Redaction]">
